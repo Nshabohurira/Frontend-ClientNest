@@ -1,4 +1,3 @@
-
 import { NavLink } from "react-router-dom";
 import {
   BarChart3,
@@ -30,21 +29,21 @@ const AppSidebar = () => {
   const { logout } = useAuthStore();
 
   const mainNavItems = [
-    { title: "Dashboard", url: "/dashboard", icon: Home },
-    { title: "Overview", url: "/overview", icon: BarChart3 },
-    { title: "Analytics", url: "/analytics", icon: BarChart3 },
+    { title: "Dashboard", url: "/app/dashboard", icon: Home },
+    { title: "Overview", url: "/app/overview", icon: BarChart3 },
+    { title: "Analytics", url: "/app/analytics", icon: BarChart3 },
   ];
 
   const socialNavItems = [
-    { title: "Posts", url: "/posts", icon: PenTool },
-    { title: "Comments", url: "/comments", icon: MessageSquare },
-    { title: "Schedule", url: "/schedule", icon: Calendar },
+    { title: "Posts", url: "/app/posts", icon: PenTool },
+    { title: "Comments", url: "/app/comments", icon: MessageSquare },
+    { title: "Schedule", url: "/app/schedule", icon: Calendar },
   ];
 
   const settingsNavItems = [
-    { title: "Profile", url: "/settings/profile", icon: User },
-    { title: "Team", url: "/settings/team", icon: Users },
-    { title: "Billing", url: "/settings/billing", icon: CreditCard },
+    { title: "Profile", url: "/app/settings/profile", icon: User },
+    { title: "Team", url: "/app/settings/team", icon: Users },
+    { title: "Billing", url: "/app/settings/billing", icon: CreditCard },
   ];
 
   return (

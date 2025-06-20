@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ const LoginPage = () => {
         title: "Welcome back!",
         description: "You've successfully logged in to Client Nest.",
       });
-      navigate("/dashboard");
+      navigate("/app/dashboard");
     } catch (error) {
       toast({
         title: "Login failed",
@@ -57,7 +56,8 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="email"
             />
           </div>
 
@@ -71,7 +71,8 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className="pr-10"
+                className="pr-10 transition-shadow focus:shadow-outline"
+                autoComplete="current-password"
               />
               <button
                 type="button"
@@ -96,7 +97,7 @@ const LoginPage = () => {
             </Link>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign in"}
           </Button>
         </form>

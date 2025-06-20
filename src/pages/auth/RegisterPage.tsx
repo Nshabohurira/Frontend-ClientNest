@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ const RegisterPage = () => {
         title: "Welcome to Client Nest!",
         description: "Your account has been created successfully.",
       });
-      navigate("/dashboard");
+      navigate("/app/dashboard");
     } catch (error) {
       toast({
         title: "Registration failed",
@@ -69,7 +68,8 @@ const RegisterPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your full name"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="name"
             />
           </div>
 
@@ -82,7 +82,8 @@ const RegisterPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="email"
             />
           </div>
 
@@ -96,7 +97,8 @@ const RegisterPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a password"
-                className="pr-10"
+                className="pr-10 transition-shadow focus:shadow-outline"
+                autoComplete="new-password"
               />
               <button
                 type="button"
@@ -121,11 +123,12 @@ const RegisterPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="new-password"
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
             {isLoading ? "Creating account..." : "Create account"}
           </Button>
         </form>
