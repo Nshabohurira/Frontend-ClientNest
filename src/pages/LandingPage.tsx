@@ -87,7 +87,11 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <a href="#" className="flex items-center gap-2">
-            <Bird className="h-8 w-8 text-primary" />
+            <img 
+              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
+              alt="Client Nest Logo" 
+              className="h-10 w-10 object-contain rounded-lg"
+            />
             <span className="text-xl font-bold">Client Nest</span>
           </a>
           <nav className="hidden md:flex gap-6">
@@ -191,8 +195,15 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Company Bio */}
             <div className="col-span-2 md:col-span-1">
-              <h3 className="text-lg font-semibold">Client Nest</h3>
-              <p className="mt-4 text-muted-foreground">
+              <div className="flex items-center gap-2 mb-4">
+                <img 
+                  src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
+                  alt="Client Nest Logo" 
+                  className="h-8 w-8 object-contain rounded-lg"
+                />
+                <h3 className="text-lg font-semibold">Client Nest</h3>
+              </div>
+              <p className="text-muted-foreground">
                 The all-in-one platform to manage, analyze, and grow your social media presence.
               </p>
             </div>

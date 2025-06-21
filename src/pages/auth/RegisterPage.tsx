@@ -34,7 +34,7 @@ const RegisterPage = () => {
         title: "Welcome to Client Nest!",
         description: "Your account has been created successfully.",
       });
-      navigate("/app/dashboard");
+      navigate("/");
     } catch (error) {
       toast({
         title: "Registration failed",
@@ -49,7 +49,11 @@ const RegisterPage = () => {
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Building className="h-8 w-8 text-primary" />
+            <img 
+              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
+              alt="Client Nest Logo" 
+              className="h-12 w-12 object-contain rounded-lg"
+            />
             <span className="text-2xl font-bold">Client Nest</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Create account</h2>
@@ -138,7 +142,7 @@ const RegisterPage = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-medium text-primary hover:text-primary/80"
+              className="font-medium text-primary hover:text-blue-600 transition-colors duration-200 hover:underline"
             >
               Sign in
             </Link>
