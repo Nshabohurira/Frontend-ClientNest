@@ -36,13 +36,11 @@ const AppSidebar = () => {
   ];
 
   const socialNavItems = [
-    { title: "Posts", url: "/posts", icon: PenTool },
-    { title: "Comments", url: "/comments", icon: MessageSquare },
-    { title: "Schedule", url: "/schedule", icon: Calendar },
-    { title: "Connectors", url: "/connectors", icon: Link },
     { title: "Posts", url: "/app/posts", icon: PenTool },
     { title: "Comments", url: "/app/comments", icon: MessageSquare },
     { title: "Schedule", url: "/app/schedule", icon: Calendar },
+    { title: "Connectors", url: "/app/connectors", icon: Link },
+    
   ];
 
   const settingsNavItems = [

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./stores/authStore";
 import Layout from "./components/layout/Layout";
+import LandingPage from "./pages/LandingPage";
 
 // Auth Pages
 import LoginPage from "./pages/auth/LoginPage";
@@ -39,12 +40,12 @@ const AppRouter = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         
         {/* Protected Routes */}
-        <Route path="/" element={
+        <Route path="/app" element={
           <ProtectedRoute>
             <Layout />
           </ProtectedRoute>
         }>
-          <Route index element={<Navigate to="/dashboard" />} />
+          <Route index element={<Navigate to="/app/dashboard" />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="overview" element={<OverviewPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
