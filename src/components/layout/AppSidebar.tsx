@@ -10,6 +10,7 @@ import {
   CreditCard,
   User,
   Building,
+  Link,
 } from "lucide-react";
 import {
   Sidebar,
@@ -38,6 +39,8 @@ const AppSidebar = () => {
     { title: "Posts", url: "/app/posts", icon: PenTool },
     { title: "Comments", url: "/app/comments", icon: MessageSquare },
     { title: "Schedule", url: "/app/schedule", icon: Calendar },
+    { title: "Connectors", url: "/app/connectors", icon: Link },
+    
   ];
 
   const settingsNavItems = [

@@ -1,13 +1,35 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Filter, Eye, Heart, MessageCircle, Share } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Plus,
+  Search,
+  Filter,
+  Eye,
+  Heart,
+  MessageCircle,
+  Share,
+  Edit,
+  Trash2,
+} from "lucide-react";
+
+type Post = (typeof postsData)[0];
 
 const PostsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const posts = [
+  const postsData = [
     {
       id: 1,
       title: "Announcing our new product feature",
@@ -54,6 +76,78 @@ const PostsPage = () => {
     },
   ];
 
+  const [posts, setPosts] = useState(postsData);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
+
+  // Form state
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const resetForm = () => {
+    setTitle("");
+    setContent("");
+    setSelectedFile(null);
+  };
+
+  const handleOpenEditDialog = (post: Post) => {
+    setEditingPost(post);
+    setTitle(post.title);
+    setContent(post.content);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = () => {
+    if (!title || !content) {
+      // Later, we can replace this with a more elegant toast notification
+      alert("Please fill out both title and content.");
+      return;
+    }
+
+    if (editingPost) {
+      // Update existing post
+      setPosts(
+        posts.map((post) =>
+          post.id === editingPost.id ? { ...post, title, content } : post
+        )
+      );
+    } else {
+      // Create new post
+      const newPost = {
+        id: Math.max(...posts.map((p) => p.id)) + 1, // Safer ID generation
+        title,
+        content,
+        platform: "LinkedIn", // Defaulting to LinkedIn for new posts
+        status: "published",
+        publishedAt: new Date().toISOString(),
+        engagement: { views: 0, likes: 0, comments: 0, shares: 0 },
+        image: selectedFile ? URL.createObjectURL(selectedFile) : undefined,
+      };
+      setPosts([newPost, ...posts]);
+    }
+
+    setIsDialogOpen(false);
+    resetForm();
+    setEditingPost(null);
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
+    resetForm();
+    setEditingPost(null);
+  };
+
+  const handleDelete = (id: number) => {
+    setPosts(posts.filter((post) => post.id !== id));
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "published":
@@ -92,10 +186,86 @@ const PostsPage = () => {
             Manage and monitor all your social media posts
           </p>
         </div>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Create Post
-        </Button>
+        <Dialog
+          open={isDialogOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              handleCancel();
+            }
+            setIsDialogOpen(open);
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Create Post
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                {editingPost ? "Edit Post" : "Create a new post"}
+              </DialogTitle>
+              <DialogDescription>
+                {editingPost
+                  ? "Make changes to your post here."
+                  : "Craft your message and choose where to publish."}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="title" className="text-right">
+                  Title
+                </Label>
+                <Input
+                  id="title"
+                  placeholder="Post title"
+                  className="col-span-3"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="content" className="text-right">
+                  Content
+                </Label>
+                <Textarea
+                  id="content"
+                  placeholder="What's on your mind?"
+                  className="col-span-3"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="media" className="text-right">
+                  Media
+                </Label>
+                <Input
+                  id="media"
+                  type="file"
+                  className="col-span-3"
+                  onChange={handleFileChange}
+                />
+              </div>
+              {selectedFile && (
+                <div className="col-start-2 col-span-3">
+                  <p className="text-sm text-muted-foreground">
+                    Selected: {selectedFile.name}
+                  </p>
+                </div>
+              )}
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button type="button" onClick={handleSubmit}>
+                {editingPost ? "Save Changes" : "Publish"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Filters */}
@@ -183,6 +353,28 @@ const PostsPage = () => {
                   {new Date(post.publishedAt).toLocaleDateString()}
                 </p>
               )}
+
+              {/* Actions */}
+              <div className="flex items-center gap-2 mt-4 pt-4 border-t">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={() => handleOpenEditDialog(post)}
+                >
+                  <Edit className="h-4 w-4" />
+                  Edit
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={() => handleDelete(post.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete
+                </Button>
+              </div>
             </div>
           </div>
         ))}

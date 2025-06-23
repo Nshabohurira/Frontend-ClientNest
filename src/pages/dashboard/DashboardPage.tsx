@@ -1,7 +1,9 @@
-
 import { BarChart3, MessageSquare, PenTool, TrendingUp, Users, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   const stats = [
     {
       title: "Total Posts",
@@ -134,23 +136,26 @@ const DashboardPage = () => {
         <div className="bg-white p-6 rounded-lg border">
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="space-y-3">
-            <button className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-3">
-                <PenTool className="h-5 w-5 text-blue-600" />
-                <span className="font-medium">Create New Post</span>
-              </div>
+            <button
+              onClick={() => navigate("/posts")}
+              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+            >
+              <PenTool className="h-5 w-5 text-primary" />
+              <span className="font-medium">Create New Post</span>
             </button>
-            <button className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-3">
-                <Calendar className="h-5 w-5 text-green-600" />
-                <span className="font-medium">Schedule Post</span>
-              </div>
+            <button
+              onClick={() => navigate("/schedule")}
+              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+            >
+              <Calendar className="h-5 w-5 text-primary" />
+              <span className="font-medium">Schedule Post</span>
             </button>
-            <button className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-3">
-                <BarChart3 className="h-5 w-5 text-purple-600" />
-                <span className="font-medium">View Analytics</span>
-              </div>
+            <button
+              onClick={() => navigate("/analytics")}
+              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+            >
+              <BarChart3 className="h-5 w-5 text-primary" />
+              <span className="font-medium">View Analytics</span>
             </button>
           </div>
         </div>
