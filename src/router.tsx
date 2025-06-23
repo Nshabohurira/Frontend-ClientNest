@@ -29,6 +29,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
+// Dashboard Page
+import DashboardPage from "./pages/dashboard/DashboardPage";
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -38,7 +41,6 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        
         {/* Protected Routes */}
         <Route path="/app" element={
           <ProtectedRoute>

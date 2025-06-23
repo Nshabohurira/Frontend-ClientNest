@@ -30,8 +30,8 @@ const testimonials = [
 const footerLinks = {
   company: [
     { name: "About Us", href: "#" },
-    { name: "Features", href: "#" },
-    { name: "Pricing", href: "#" },
+    { name: "Features", href: "#features" },
+    { name: "Pricing", href: "#pricing" },
     { name: "Contact", href: "#" },
   ],
   legal: [
@@ -82,7 +82,7 @@ const heroImages = [
 export default function LandingPage() {
   const navigate = useNavigate();
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col scroll-smooth">
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -95,8 +95,8 @@ export default function LandingPage() {
             <span className="text-xl font-bold">Client Nest</span>
           </a>
           <nav className="hidden md:flex gap-6">
-            <a href="#" className="text-muted-foreground hover:text-primary">Features</a>
-            <a href="#" className="text-muted-foreground hover:text-primary">Pricing</a>
+            <a href="#features" className="text-muted-foreground hover:text-primary">Features</a>
+            <a href="#pricing" className="text-muted-foreground hover:text-primary">Pricing</a>
           </nav>
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={() => navigate('/login')}>Login</Button>
@@ -135,7 +135,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-white to-blue-50">
+      <section id="features" className="py-16 px-4 bg-gradient-to-r from-white to-blue-50">
         <h2 className="text-3xl font-bold text-center mb-10">Why Choose Client Nest?</h2>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature) => (
@@ -162,6 +162,63 @@ export default function LandingPage() {
               <span className="mt-2 text-lg font-medium">{platform.name}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-16 px-4 bg-gradient-to-r from-white to-indigo-50">
+        <h2 className="text-3xl font-bold text-center mb-10">Simple, Transparent Pricing</h2>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Free Plan */}
+          <Card className="flex flex-col items-center p-8 border-2 border-gray-200">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl mb-2">Free</CardTitle>
+              <div className="text-4xl font-bold mb-2">$0</div>
+              <div className="text-muted-foreground mb-4">Perfect for individuals just getting started.</div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col gap-2 text-center">
+              <div>✔️ 1 Social Account</div>
+              <div>✔️ Basic Analytics</div>
+              <div>✔️ Limited Scheduling</div>
+            </CardContent>
+            <Button variant="outline" className="mt-6 w-full" onClick={() => navigate('/register')}>Get Started</Button>
+          </Card>
+          {/* Pro Plan */}
+          <Card className="flex flex-col items-center p-8 border-2 border-primary shadow-lg scale-105">
+            <CardHeader className="text-center">
+              <Badge className="mb-2 bg-primary text-white">Most Popular</Badge>
+              <CardTitle className="text-2xl mb-2">Pro</CardTitle>
+              <div className="text-4xl font-bold mb-2">$19<span className="text-lg font-normal">/mo</span></div>
+              <div className="text-muted-foreground mb-4">For growing teams and businesses.</div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col gap-2 text-center">
+              <div>✔️ Up to 10 Social Accounts</div>
+              <div>✔️ Advanced Analytics</div>
+              <div>✔️ Unlimited Scheduling</div>
+              <div>✔️ Priority Support</div>
+            </CardContent>
+            <Button className="mt-6 w-full" onClick={() => navigate('/register')}>Start Pro</Button>
+          </Card>
+          {/* Enterprise Plan */}
+          <Card className="flex flex-col items-center p-8 border-2 border-gray-200">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl mb-2">Enterprise</CardTitle>
+              <div className="text-4xl font-bold mb-2">Custom</div>
+              <div className="text-muted-foreground mb-4">For large organizations with advanced needs.</div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col gap-2 text-center">
+              <div>✔️ Unlimited Social Accounts</div>
+              <div>✔️ Custom Integrations</div>
+              <div>✔️ Dedicated Account Manager</div>
+              <div>✔️ SLA & Premium Support</div>
+            </CardContent>
+            <Button variant="outline" className="mt-6 w-full" onClick={() => navigate('/register')}>Contact Sales</Button>
+          </Card>
+        </div>
+        <div className="text-center mt-8">
+          <a href="/pricing" className="inline-block text-primary font-semibold hover:underline hover:text-blue-600 transition-colors duration-200 text-lg">
+            See detailed pricing &rarr;
+          </a>
         </div>
       </section>
 
