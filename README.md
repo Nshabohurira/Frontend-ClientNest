@@ -71,3 +71,31 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Security Best Practices
+
+To enhance the security of your frontend application, follow these recommendations:
+
+### 1. Content Security Policy (CSP)
+Set a strong CSP header on your server or CDN to mitigate XSS and data injection attacks. Example header:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none';
+```
+
+Adjust the policy as needed for your app's requirements.
+
+### 2. Other Security Headers
+- `X-Frame-Options: DENY` (prevents clickjacking)
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: no-referrer`
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`
+
+### 3. General Recommendations
+- Never store secrets or API keys in frontend code.
+- Always use HTTPS for API calls.
+- Sanitize any HTML rendered with `dangerouslySetInnerHTML` (already implemented with DOMPurify).
+- Remove debug logs and error traces from production builds.
+- Keep dependencies up to date and run `npm audit` regularly.
+
+For more details, see the comment in `vite.config.ts`.

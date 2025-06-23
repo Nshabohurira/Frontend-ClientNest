@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
+// SECURITY RECOMMENDATION: Set strong Content-Security-Policy (CSP), X-Frame-Options, and other security headers at your server or CDN for enhanced frontend security. See README for details.
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
