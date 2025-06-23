@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ const RegisterPage = () => {
         title: "Welcome to Client Nest!",
         description: "Your account has been created successfully.",
       });
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       toast({
         title: "Registration failed",
@@ -50,7 +49,11 @@ const RegisterPage = () => {
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Building className="h-8 w-8 text-primary" />
+            <img 
+              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
+              alt="Client Nest Logo" 
+              className="h-12 w-12 object-contain rounded-lg"
+            />
             <span className="text-2xl font-bold">Client Nest</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Create account</h2>
@@ -69,7 +72,8 @@ const RegisterPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your full name"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="name"
             />
           </div>
 
@@ -82,7 +86,8 @@ const RegisterPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="email"
             />
           </div>
 
@@ -96,7 +101,8 @@ const RegisterPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a password"
-                className="pr-10"
+                className="pr-10 transition-shadow focus:shadow-outline"
+                autoComplete="new-password"
               />
               <button
                 type="button"
@@ -121,11 +127,12 @@ const RegisterPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
-              className="mt-1"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="new-password"
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
             {isLoading ? "Creating account..." : "Create account"}
           </Button>
         </form>
@@ -135,7 +142,7 @@ const RegisterPage = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-medium text-primary hover:text-primary/80"
+              className="font-medium text-primary hover:text-blue-600 transition-colors duration-200 hover:underline"
             >
               Sign in
             </Link>
