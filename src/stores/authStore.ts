@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -18,6 +17,8 @@ interface AuthStore {
   logout: () => void;
   register: (email: string, password: string, name: string) => Promise<void>;
   setUser: (user: User) => void;
+  clearAuth: () => void;
+  reset: () => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -69,6 +70,16 @@ export const useAuthStore = create<AuthStore>()(
       },
       
       setUser: (user: User) => set({ user }),
+      
+      clearAuth: () => {
+        set({ user: null, isAuthenticated: false, isLoading: false });
+      },
+      
+      reset: () => {
+        set({ user: null, isAuthenticated: false, isLoading: false });
+        // Clear localStorage
+        localStorage.removeItem('auth-storage');
+      },
     }),
     {
       name: 'auth-storage',
