@@ -29,9 +29,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
-// Dashboard Page
-import DashboardPage from "./pages/dashboard/DashboardPage";
-
 const AppRouter = () => {
   return (
     <BrowserRouter>
