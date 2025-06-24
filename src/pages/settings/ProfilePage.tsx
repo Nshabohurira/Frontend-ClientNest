@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,7 +26,6 @@ const ProfilePage = () => {
   };
 
   const handleSave = () => {
-    console.log("Saving profile data:", formData);
     // In a real app, this would make an API call
   };
 
