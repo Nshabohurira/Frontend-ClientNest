@@ -38,7 +38,6 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        
         {/* Protected Routes */}
         <Route path="/app" element={
           <ProtectedRoute>

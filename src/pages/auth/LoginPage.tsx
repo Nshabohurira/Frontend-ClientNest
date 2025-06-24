@@ -22,7 +22,7 @@ const LoginPage = () => {
         title: "Welcome back!",
         description: "You've successfully logged in to Client Nest.",
       });
-      navigate("/");
+      navigate("/app/dashboard");
     } catch (error) {
       toast({
         title: "Login failed",
