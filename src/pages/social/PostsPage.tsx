@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   Plus,
   Search,
@@ -22,163 +22,74 @@ import {
   Share,
   Edit,
   Trash2,
+  Image as ImageIcon,
+  Paperclip,
 } from "lucide-react";
-
-type Post = (typeof postsData)[0];
+import usePostStore from "@/stores/postStore";
+import { Post } from "@/stores/postStore";
+import CreatePostModal from "@/components/dashboard/CreatePostModal";
 
 const PostsPage = () => {
+  const { posts, updatePost, deletePost } = usePostStore();
   const [searchTerm, setSearchTerm] = useState("");
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
-  const postsData = [
-    {
-      id: 1,
-      title: "Announcing our new product feature",
-      content: "We're excited to share our latest innovation that will revolutionize how you manage your social media...",
-      platform: "LinkedIn",
-      status: "published",
-      publishedAt: "2024-01-15T10:30:00Z",
-      engagement: {
-        views: 1247,
-        likes: 84,
-        comments: 23,
-        shares: 12,
-      },
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=300&h=200&fit=crop",
-    },
-    {
-      id: 2,
-      title: "Team spotlight: Meet Sarah",
-      content: "This week we're highlighting Sarah from our design team. She's been instrumental in creating...",
-      platform: "Instagram",
-      status: "scheduled",
-      publishedAt: "2024-01-16T14:00:00Z",
-      engagement: {
-        views: 0,
-        likes: 0,
-        comments: 0,
-        shares: 0,
-      },
-      image: "https://images.unsplash.com/photo-1494790108755-2616b332c6b7?w=300&h=200&fit=crop",
-    },
-    {
-      id: 3,
-      title: "Industry insights: 2024 trends",
-      content: "Our analysis of the upcoming trends that will shape the industry in 2024...",
-      platform: "Twitter",
-      status: "draft",
-      publishedAt: null,
-      engagement: {
-        views: 0,
-        likes: 0,
-        comments: 0,
-        shares: 0,
-      },
-    },
-  ];
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  const [editingContent, setEditingContent] = useState("");
+  const [editingFile, setEditingFile] = useState<File | null>(null);
+  const [editingFilePreview, setEditingFilePreview] = useState<string | null>(null);
+  const [postToDelete, setPostToDelete] = useState<number | null>(null);
+  const editFileInputRef = useRef<HTMLInputElement>(null);
 
-  const [posts, setPosts] = useState(postsData);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const handleEdit = (post: Post) => {
+    setEditingPostId(post.id);
+    setEditingContent(post.content);
+    setEditingFilePreview(post.image || null);
+  };
 
-  // Form state
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handleCancelEdit = () => {
+    setEditingPostId(null);
+    setEditingContent("");
+    setEditingFile(null);
+    setEditingFilePreview(null);
+  };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSaveEdit = (postId: number) => {
+    const updates: { content?: string; image?: string } = {};
+    if (editingContent) updates.content = editingContent;
+    if (editingFilePreview) updates.image = editingFilePreview;
+
+    if (Object.keys(updates).length > 0) {
+      updatePost(postId, updates);
+    }
+    handleCancelEdit();
+  };
+
+  const handleDeleteConfirm = (postId: number) => {
+    deletePost(postId);
+    setPostToDelete(null);
+  };
+
+  const handleEditFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
+      const file = event.target.files[0];
+      setEditingFile(file);
+      setEditingFilePreview(URL.createObjectURL(file));
     }
   };
 
-  const resetForm = () => {
-    setTitle("");
-    setContent("");
-    setSelectedFile(null);
+  const triggerEditFileSelect = () => {
+    editFileInputRef.current?.click();
   };
 
-  const handleOpenEditDialog = (post: Post) => {
-    setEditingPost(post);
-    setTitle(post.title);
-    setContent(post.content);
-    setIsDialogOpen(true);
-  };
-
-  const handleSubmit = () => {
-    if (!title || !content) {
-      // Later, we can replace this with a more elegant toast notification
-      alert("Please fill out both title and content.");
-      return;
-    }
-
-    if (editingPost) {
-      // Update existing post
-      setPosts(
-        posts.map((post) =>
-          post.id === editingPost.id ? { ...post, title, content } : post
-        )
-      );
-    } else {
-      // Create new post
-      const newPost = {
-        id: Math.max(...posts.map((p) => p.id)) + 1, // Safer ID generation
-        title,
-        content,
-        platform: "LinkedIn", // Defaulting to LinkedIn for new posts
-        status: "published",
-        publishedAt: new Date().toISOString(),
-        engagement: { views: 0, likes: 0, comments: 0, shares: 0 },
-        image: selectedFile ? URL.createObjectURL(selectedFile) : undefined,
-      };
-      setPosts([newPost, ...posts]);
-    }
-
-    setIsDialogOpen(false);
-    resetForm();
-    setEditingPost(null);
-  };
-
-  const handleCancel = () => {
-    setIsDialogOpen(false);
-    resetForm();
-    setEditingPost(null);
-  };
-
-  const handleDelete = (id: number) => {
-    setPosts(posts.filter((post) => post.id !== id));
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "published":
-        return "bg-green-100 text-green-800";
-      case "scheduled":
-        return "bg-blue-100 text-blue-800";
-      case "draft":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getPlatformColor = (platform: string) => {
-    switch (platform) {
-      case "LinkedIn":
-        return "bg-blue-600";
-      case "Instagram":
-        return "bg-pink-600";
-      case "Twitter":
-        return "bg-black";
-      case "Facebook":
-        return "bg-blue-700";
-      default:
-        return "bg-gray-600";
-    }
-  };
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Posts</h1>
@@ -186,97 +97,20 @@ const PostsPage = () => {
             Manage and monitor all your social media posts
           </p>
         </div>
-        <Dialog
-          open={isDialogOpen}
-          onOpenChange={(open) => {
-            if (!open) {
-              handleCancel();
-            }
-            setIsDialogOpen(open);
-          }}
-        >
-          <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Create Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>
-                {editingPost ? "Edit Post" : "Create a new post"}
-              </DialogTitle>
-              <DialogDescription>
-                {editingPost
-                  ? "Make changes to your post here."
-                  : "Craft your message and choose where to publish."}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="title" className="text-right">
-                  Title
-                </Label>
-                <Input
-                  id="title"
-                  placeholder="Post title"
-                  className="col-span-3"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="content" className="text-right">
-                  Content
-                </Label>
-                <Textarea
-                  id="content"
-                  placeholder="What's on your mind?"
-                  className="col-span-3"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="media" className="text-right">
-                  Media
-                </Label>
-                <Input
-                  id="media"
-                  type="file"
-                  className="col-span-3"
-                  onChange={handleFileChange}
-                />
-              </div>
-              {selectedFile && (
-                <div className="col-start-2 col-span-3">
-                  <p className="text-sm text-muted-foreground">
-                    Selected: {selectedFile.name}
-                  </p>
-                </div>
-              )}
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
-              </Button>
-              <Button type="button" onClick={handleSubmit}>
-                {editingPost ? "Save Changes" : "Publish"}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setCreateModalOpen(true)} className="flex items-center gap-2">
+          <Plus className="h-4 w-4" />
+          Create Post
+        </Button>
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-4 items-center">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <div className="flex items-center gap-4">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search posts..."
+            className="pl-10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
           />
         </div>
         <Button variant="outline" className="flex items-center gap-2">
@@ -285,100 +119,158 @@ const PostsPage = () => {
         </Button>
       </div>
 
-      {/* Posts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
-          >
-            {post.image && (
-              <img
-                src={post.image}
-                alt=""
-                className="w-full h-48 object-cover"
-              />
-            )}
-            
-            <div className="p-4 space-y-3">
-              {/* Header */}
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`w-3 h-3 rounded-full ${getPlatformColor(post.platform)}`}
-                  />
-                  <span className="text-sm font-medium">{post.platform}</span>
-                </div>
-                <span
-                  className={`px-2 py-1 text-xs rounded-full ${getStatusColor(post.status)}`}
-                >
-                  {post.status}
+      <div className="grid gap-6">
+        {filteredPosts.map((post) => (
+          <div key={post.id} className="bg-white p-6 rounded-lg border shadow-sm">
+            <div className="flex items-start gap-4">
+              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-sm font-medium">
+                  {post.author.charAt(0)}
                 </span>
               </div>
-
-              {/* Content */}
-              <div>
-                <h3 className="font-semibold line-clamp-2">{post.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
-                  {post.content}
-                </p>
-              </div>
-
-              {/* Engagement Stats */}
-              {post.status === "published" && (
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Eye className="h-4 w-4" />
-                    {post.engagement.views}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Heart className="h-4 w-4" />
-                    {post.engagement.likes}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <MessageCircle className="h-4 w-4" />
-                    {post.engagement.comments}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Share className="h-4 w-4" />
-                    {post.engagement.shares}
-                  </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium">{post.author}</p>
+                  <span
+                    className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      post.status === "published"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
+                  </span>
                 </div>
-              )}
 
-              {/* Publish Date */}
-              {post.publishedAt && (
-                <p className="text-xs text-muted-foreground">
-                  {post.status === "published" ? "Published" : "Scheduled for"}{" "}
-                  {new Date(post.publishedAt).toLocaleDateString()}
-                </p>
-              )}
-
-              {/* Actions */}
-              <div className="flex items-center gap-2 mt-4 pt-4 border-t">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                  onClick={() => handleOpenEditDialog(post)}
-                >
-                  <Edit className="h-4 w-4" />
-                  Edit
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                  onClick={() => handleDelete(post.id)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
-                </Button>
+                {editingPostId === post.id ? (
+                  <div className="mt-2">
+                    <Textarea
+                      value={editingContent}
+                      onChange={(e) => setEditingContent(e.target.value)}
+                      className="w-full"
+                    />
+                    {editingFilePreview && (
+                      <img
+                        src={editingFilePreview}
+                        alt="Post preview"
+                        className="mt-2 rounded-lg object-cover w-full max-h-60"
+                      />
+                    )}
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => triggerEditFileSelect()}
+                        >
+                          <ImageIcon className="h-5 w-5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => triggerEditFileSelect()}
+                        >
+                          <Paperclip className="h-5 w-5" />
+                        </Button>
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleCancelEdit}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleSaveEdit(post.id)}
+                        >
+                          Save Changes
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-sm text-muted-foreground whitespace-pre-wrap mt-1">
+                      {post.content}
+                    </p>
+                    {post.image && (
+                      <img
+                        src={post.image}
+                        alt="Post content"
+                        className="mt-2 rounded-lg object-cover w-full max-h-60"
+                      />
+                    )}
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-xs text-muted-foreground">
+                        {post.status === "scheduled"
+                          ? `Scheduled for: ${new Date(
+                              post.scheduledAt || ""
+                            ).toLocaleString()}`
+                          : `Published on: ${new Date(
+                              post.timestamp
+                            ).toLocaleString()}`}
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => handleEdit(post)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 hover:bg-red-100 hover:text-red-600"
+                          onClick={() => setPostToDelete(post.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         ))}
       </div>
+      
+      <CreatePostModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+      />
+
+      <input
+        type="file"
+        ref={editFileInputRef}
+        className="hidden"
+        onChange={handleEditFileChange}
+        accept="image/*,video/*"
+      />
+
+      <AlertDialog open={postToDelete !== null} onOpenChange={() => setPostToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              post.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setPostToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => handleDeleteConfirm(postToDelete!)}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
