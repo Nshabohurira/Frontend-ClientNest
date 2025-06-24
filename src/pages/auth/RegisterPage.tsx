@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Building, Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { toast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { register, isLoading } = useAuthStore();
 
@@ -30,11 +32,7 @@ const RegisterPage = () => {
 
     try {
       await register(email, password, name);
-      toast({
-        title: "Welcome to Client Nest!",
-        description: "Your account has been created successfully.",
-      });
-      navigate("/");
+      setShowModal(true);
     } catch (error) {
       toast({
         title: "Registration failed",
@@ -46,6 +44,28 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Registration Modal */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Account Created!</DialogTitle>
+            <DialogDescription>
+              Your account has been created. Please log in with your new credentials.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                setShowModal(false);
+                navigate("/login");
+              }}
+              className="w-full"
+            >
+              Go to Login
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
