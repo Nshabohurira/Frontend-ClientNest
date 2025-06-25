@@ -45,6 +45,13 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 10% 25%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --color-primary: #3D3BF3;
+    --color-secondary: #9694FF;
+    --color-accent: #FF2929;
+    --color-background: #EBEAFF;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
   }
 
   .dark {
@@ -83,6 +90,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --color-primary: #9694FF;
+    --color-secondary: #3D3BF3;
+    --color-accent: #FF2929;
+    --color-background: #18181b;
   }
 }
 
