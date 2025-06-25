@@ -52,7 +52,11 @@ const AppSidebar = () => {
     <Sidebar>
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <Building className="h-6 w-6 text-primary" />
+          <img
+            src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png"
+            alt="Client Nest Logo"
+            className="h-10 w-10 object-contain rounded-lg"
+          />
           <span className="font-bold text-lg">Client Nest</span>
         </div>
       </SidebarHeader>
