@@ -340,21 +340,21 @@ const DashboardPage = () => {
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="space-y-3">
             <button
-              onClick={() => setCreatePostModalOpen(true)}
+              onClick={() => navigate('/app/posts')}
               className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
             >
               <PenTool className="h-5 w-5 text-primary" />
               <span className="font-medium">Create New Post</span>
             </button>
             <button
-              onClick={() => setSchedulePostModalOpen(true)}
+              onClick={() => navigate('/app/schedule')}
               className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
             >
               <Calendar className="h-5 w-5 text-primary" />
               <span className="font-medium">Schedule Post</span>
             </button>
             <button
-              onClick={() => navigate('/analytics')}
+              onClick={() => navigate('/app/analytics')}
               className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
             >
               <BarChart3 className="h-5 w-5 text-primary" />

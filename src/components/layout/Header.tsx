@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthStore } from '@/stores/authStore';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-background px-6">
@@ -21,6 +23,13 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-4">
+        <Button
+          variant="outline"
+          onClick={() => navigate('/')}
+          className="font-semibold"
+        >
+          BACK TO HOME
+        </Button>
         <Button variant="ghost" size="icon">
           <Bell className="h-5 w-5" />
         </Button>
