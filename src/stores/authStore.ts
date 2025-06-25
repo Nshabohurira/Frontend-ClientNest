@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       isAuthenticated: false,
       isLoading: false,
-      
+
       login: async (email: string, password: string) => {
         set({ isLoading: true });
         try {
@@ -37,8 +37,9 @@ export const useAuthStore = create<AuthStore>()(
             id: '1',
             email,
             name: 'John Doe',
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
-            role: 'admin'
+            avatar:
+              'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+            role: 'admin',
           };
           set({ user, isAuthenticated: true, isLoading: false });
         } catch (error) {
@@ -46,11 +47,11 @@ export const useAuthStore = create<AuthStore>()(
           throw error;
         }
       },
-      
+
       logout: () => {
         set({ user: null, isAuthenticated: false });
       },
-      
+
       register: async (email: string, password: string, name: string) => {
         set({ isLoading: true });
         try {
@@ -60,7 +61,7 @@ export const useAuthStore = create<AuthStore>()(
             id: '1',
             email,
             name,
-            role: 'admin'
+            role: 'admin',
           };
           set({ user, isAuthenticated: true, isLoading: false });
         } catch (error) {
@@ -68,13 +69,13 @@ export const useAuthStore = create<AuthStore>()(
           throw error;
         }
       },
-      
+
       setUser: (user: User) => set({ user }),
-      
+
       clearAuth: () => {
         set({ user: null, isAuthenticated: false, isLoading: false });
       },
-      
+
       reset: () => {
         set({ user: null, isAuthenticated: false, isLoading: false });
         // Clear localStorage

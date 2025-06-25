@@ -1,11 +1,6 @@
-import { useState, useRef } from "react";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useState, useRef } from 'react';
+import { Calendar } from '@/components/ui/calendar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,35 +10,39 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import usePostStore, { Post } from "@/stores/postStore";
-import { format, isSameDay, startOfToday, compareAsc } from "date-fns";
+} from '@/components/ui/alert-dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import usePostStore, { Post } from '@/stores/postStore';
+import { format, isSameDay, startOfToday, compareAsc } from 'date-fns';
 import {
   Edit,
   Trash2,
   Image as ImageIcon,
   Paperclip,
   Calendar as CalendarIcon,
-} from "lucide-react";
-import { toast } from "sonner";
+} from 'lucide-react';
+import { toast } from 'sonner';
 
 const SchedulePage = () => {
   const { posts, addPost, updatePost, deletePost } = usePostStore();
-  
+
   // State for the calendar and post lists
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const [activeTab, setActiveTab] = useState('upcoming');
 
   // State for inline editing
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
-  const [editingContent, setEditingContent] = useState("");
+  const [editingContent, setEditingContent] = useState('');
   const [editingFile, setEditingFile] = useState<File | null>(null);
   const [editingFilePreview, setEditingFilePreview] = useState<string | null>(
     null
@@ -54,17 +53,17 @@ const SchedulePage = () => {
   const [postToDelete, setPostToDelete] = useState<number | null>(null);
 
   // State for the "Schedule New" form
-  const [newContent, setNewContent] = useState("");
+  const [newContent, setNewContent] = useState('');
   const [newDate, setNewDate] = useState<Date | undefined>(new Date());
-  const [newTime, setNewTime] = useState("12:00");
+  const [newTime, setNewTime] = useState('12:00');
   const [newFile, setNewFile] = useState<File | null>(null);
   const newFileInputRef = useRef<HTMLInputElement>(null);
   const [isScheduling, setIsScheduling] = useState(false);
 
   const upcomingPosts = posts
     .filter(
-      (post) =>
-        post.status === "scheduled" &&
+      post =>
+        post.status === 'scheduled' &&
         new Date(post.scheduledAt!) >= startOfToday()
     )
     .sort((a, b) =>
@@ -80,7 +79,7 @@ const SchedulePage = () => {
 
   const handleCancelEdit = () => {
     setEditingPostId(null);
-    setEditingContent("");
+    setEditingContent('');
     setEditingFile(null);
     setEditingFilePreview(null);
   };
@@ -112,38 +111,37 @@ const SchedulePage = () => {
   };
 
   const triggerNewFileSelect = () => newFileInputRef.current?.click();
-  
+
   const handleScheduleNew = () => {
     if (!newContent.trim() || !newDate) {
-      toast.error("Please add content and select a date to schedule a post.");
+      toast.error('Please add content and select a date to schedule a post.');
       return;
     }
     setIsScheduling(true);
 
     // Simulate async operation
     setTimeout(() => {
-      const [hours, minutes] = newTime.split(":").map(Number);
+      const [hours, minutes] = newTime.split(':').map(Number);
       const scheduledAt = new Date(newDate);
       scheduledAt.setHours(hours, minutes);
 
       addPost({
         content: newContent,
-        status: "scheduled",
+        status: 'scheduled',
         scheduledAt: scheduledAt.toISOString(),
         image: newFile ? URL.createObjectURL(newFile) : undefined,
       });
-      
+
       // Reset form
-      setNewContent("");
+      setNewContent('');
       setNewFile(null);
       setNewDate(new Date());
-      setNewTime("12:00");
+      setNewTime('12:00');
       setIsScheduling(false);
-      toast.success("Post scheduled successfully!");
-      setActiveTab("upcoming");
+      toast.success('Post scheduled successfully!');
+      setActiveTab('upcoming');
     }, 500);
   };
-
 
   return (
     <div className="space-y-6">
@@ -163,24 +161,22 @@ const SchedulePage = () => {
             className="w-full"
             components={{
               DayContent: ({ date: dayDate }) => {
-                const dailyPosts = upcomingPosts.filter((post) =>
+                const dailyPosts = upcomingPosts.filter(post =>
                   isSameDay(new Date(post.scheduledAt!), dayDate)
                 );
                 return (
                   <div className="relative h-full w-full">
                     <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      {format(dayDate, "d")}
+                      {format(dayDate, 'd')}
                     </span>
                     {dailyPosts.length > 0 && (
                       <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
-                        {dailyPosts
-                          .slice(0, 3)
-                          .map((post) => (
-                            <div
-                              key={post.id}
-                              className="h-1.5 w-1.5 rounded-full bg-blue-500"
-                            />
-                          ))}
+                        {dailyPosts.slice(0, 3).map(post => (
+                          <div
+                            key={post.id}
+                            className="h-1.5 w-1.5 rounded-full bg-blue-500"
+                          />
+                        ))}
                       </div>
                     )}
                   </div>
@@ -197,26 +193,48 @@ const SchedulePage = () => {
           <TabsTrigger value="create">Schedule New</TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming" className="space-y-4 pt-4">
-          {upcomingPosts.map((post) => (
+          {upcomingPosts.map(post => (
             <Card key={post.id}>
               <CardContent className="p-4">
                 {editingPostId === post.id ? (
                   <div className="space-y-2">
                     <Textarea
                       value={editingContent}
-                      onChange={(e) => setEditingContent(e.target.value)}
+                      onChange={e => setEditingContent(e.target.value)}
                     />
-                    {editingFilePreview && <img src={editingFilePreview} alt="Preview" className="h-24 w-24 object-cover rounded-md"/>}
-                     <div className="flex justify-between items-center">
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="icon" onClick={triggerEditFileSelect}><ImageIcon className="h-5 w-5"/></Button>
-                          <Button variant="ghost" size="icon" onClick={triggerEditFileSelect}><Paperclip className="h-5 w-5"/></Button>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="ghost" onClick={handleCancelEdit}>Cancel</Button>
-                          <Button onClick={() => handleSaveEdit(post.id)}>Save Changes</Button>
-                        </div>
+                    {editingFilePreview && (
+                      <img
+                        src={editingFilePreview}
+                        alt="Preview"
+                        className="h-24 w-24 object-cover rounded-md"
+                      />
+                    )}
+                    <div className="flex justify-between items-center">
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={triggerEditFileSelect}
+                        >
+                          <ImageIcon className="h-5 w-5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={triggerEditFileSelect}
+                        >
+                          <Paperclip className="h-5 w-5" />
+                        </Button>
                       </div>
+                      <div className="flex gap-2">
+                        <Button variant="ghost" onClick={handleCancelEdit}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => handleSaveEdit(post.id)}>
+                          Save Changes
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex justify-between items-center">
@@ -236,8 +254,20 @@ const SchedulePage = () => {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" onClick={() => handleEdit(post)}><Edit className="h-4 w-4"/></Button>
-                      <Button variant="ghost" size="icon" onClick={() => setPostToDelete(post.id)}><Trash2 className="h-4 w-4"/></Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEdit(post)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setPostToDelete(post.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -251,50 +281,88 @@ const SchedulePage = () => {
               <CardTitle>Schedule a New Post</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-               <Textarea
-                  placeholder="What would you like to schedule?"
-                  value={newContent}
-                  onChange={(e) => setNewContent(e.target.value)}
-                  className="min-h-[100px]"
-                />
-                {newFile && <p className="text-sm text-muted-foreground">Selected: {newFile.name}</p>}
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                     <Button variant="ghost" size="icon" onClick={triggerNewFileSelect}><ImageIcon className="h-5 w-5"/></Button>
-                     <Button variant="ghost" size="icon" onClick={triggerNewFileSelect}><Paperclip className="h-5 w-5"/></Button>
-                  </div>
-                   <div className="flex gap-2 items-center">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant={"outline"}>
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {newDate ? format(newDate, "PPP") : <span>Pick a date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar mode="single" selected={newDate} onSelect={setNewDate} initialFocus/>
-                      </PopoverContent>
-                    </Popover>
-                     <Input
-                        type="time"
-                        value={newTime}
-                        onChange={(e) => setNewTime(e.target.value)}
-                        className="w-32"
-                      />
-                    <Button onClick={handleScheduleNew} disabled={isScheduling}>
-                      {isScheduling ? "Scheduling..." : "Schedule"}
-                    </Button>
-                  </div>
+              <Textarea
+                placeholder="What would you like to schedule?"
+                value={newContent}
+                onChange={e => setNewContent(e.target.value)}
+                className="min-h-[100px]"
+              />
+              {newFile && (
+                <p className="text-sm text-muted-foreground">
+                  Selected: {newFile.name}
+                </p>
+              )}
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={triggerNewFileSelect}
+                  >
+                    <ImageIcon className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={triggerNewFileSelect}
+                  >
+                    <Paperclip className="h-5 w-5" />
+                  </Button>
                 </div>
+                <div className="flex gap-2 items-center">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant={'outline'}>
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {newDate ? (
+                          format(newDate, 'PPP')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={newDate}
+                        onSelect={setNewDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <Input
+                    type="time"
+                    value={newTime}
+                    onChange={e => setNewTime(e.target.value)}
+                    className="w-32"
+                  />
+                  <Button onClick={handleScheduleNew} disabled={isScheduling}>
+                    {isScheduling ? 'Scheduling...' : 'Schedule'}
+                  </Button>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-      
-      <input type="file" ref={editFileInputRef} className="hidden" onChange={handleEditFileChange}/>
-      <input type="file" ref={newFileInputRef} className="hidden" onChange={handleNewFileChange}/>
 
-      <AlertDialog open={postToDelete !== null} onOpenChange={() => setPostToDelete(null)}>
+      <input
+        type="file"
+        ref={editFileInputRef}
+        className="hidden"
+        onChange={handleEditFileChange}
+      />
+      <input
+        type="file"
+        ref={newFileInputRef}
+        className="hidden"
+        onChange={handleNewFileChange}
+      />
+
+      <AlertDialog
+        open={postToDelete !== null}
+        onOpenChange={() => setPostToDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -304,8 +372,12 @@ const SchedulePage = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setPostToDelete(null)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => deletePost(postToDelete!)}>Continue</AlertDialogAction>
+            <AlertDialogCancel onClick={() => setPostToDelete(null)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => deletePost(postToDelete!)}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

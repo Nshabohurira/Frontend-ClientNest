@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 
 interface UIStore {
@@ -12,10 +11,10 @@ interface UIStore {
 export const useUIStore = create<UIStore>((set, get) => ({
   sidebarOpen: true,
   theme: 'light',
-  
+
   setSidebarOpen: (open: boolean) => set({ sidebarOpen: open }),
-  
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-  
+
+  toggleSidebar: () => set(state => ({ sidebarOpen: !state.sidebarOpen })),
+
   setTheme: (theme: 'light' | 'dark') => set({ theme }),
 }));

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import {
   BarChart3,
   Calendar,
@@ -11,7 +11,7 @@ import {
   User,
   Building,
   Link,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -23,30 +23,29 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarFooter,
-} from "@/components/ui/sidebar";
-import { useAuthStore } from "@/stores/authStore";
+} from '@/components/ui/sidebar';
+import { useAuthStore } from '@/stores/authStore';
 
 const AppSidebar = () => {
   const { logout } = useAuthStore();
 
   const mainNavItems = [
-    { title: "Dashboard", url: "/app/dashboard", icon: Home },
-    { title: "Overview", url: "/app/overview", icon: BarChart3 },
-    { title: "Analytics", url: "/app/analytics", icon: BarChart3 },
+    { title: 'Dashboard', url: '/app/dashboard', icon: Home },
+    { title: 'Overview', url: '/app/overview', icon: BarChart3 },
+    { title: 'Analytics', url: '/app/analytics', icon: BarChart3 },
   ];
 
   const socialNavItems = [
-    { title: "Posts", url: "/app/posts", icon: PenTool },
-    { title: "Comments", url: "/app/comments", icon: MessageSquare },
-    { title: "Schedule", url: "/app/schedule", icon: Calendar },
-    { title: "Connectors", url: "/app/connectors", icon: Link },
-    
+    { title: 'Posts', url: '/app/posts', icon: PenTool },
+    { title: 'Comments', url: '/app/comments', icon: MessageSquare },
+    { title: 'Schedule', url: '/app/schedule', icon: Calendar },
+    { title: 'Connectors', url: '/app/connectors', icon: Link },
   ];
 
   const settingsNavItems = [
-    { title: "Profile", url: "/app/settings/profile", icon: User },
-    { title: "Team", url: "/app/settings/team", icon: Users },
-    { title: "Billing", url: "/app/settings/billing", icon: CreditCard },
+    { title: 'Profile', url: '/app/settings/profile', icon: User },
+    { title: 'Team', url: '/app/settings/team', icon: Users },
+    { title: 'Billing', url: '/app/settings/billing', icon: CreditCard },
   ];
 
   return (
@@ -57,13 +56,13 @@ const AppSidebar = () => {
           <span className="font-bold text-lg">Client Nest</span>
         </div>
       </SidebarHeader>
-      
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainNavItems.map((item) => (
+              {mainNavItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
@@ -71,8 +70,8 @@ const AppSidebar = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-2 p-2 rounded-md transition-colors ${
                           isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-accent"
+                            ? 'bg-primary text-primary-foreground'
+                            : 'hover:bg-accent'
                         }`
                       }
                     >
@@ -90,7 +89,7 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Social Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {socialNavItems.map((item) => (
+              {socialNavItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
@@ -98,8 +97,8 @@ const AppSidebar = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-2 p-2 rounded-md transition-colors ${
                           isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-accent"
+                            ? 'bg-primary text-primary-foreground'
+                            : 'hover:bg-accent'
                         }`
                       }
                     >
@@ -117,7 +116,7 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {settingsNavItems.map((item) => (
+              {settingsNavItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
@@ -125,8 +124,8 @@ const AppSidebar = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-2 p-2 rounded-md transition-colors ${
                           isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-accent"
+                            ? 'bg-primary text-primary-foreground'
+                            : 'hover:bg-accent'
                         }`
                       }
                     >
@@ -140,7 +139,7 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      
+
       <SidebarFooter className="p-4">
         <button
           onClick={logout}

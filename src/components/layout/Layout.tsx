@@ -1,8 +1,11 @@
-
-import { Outlet } from "react-router-dom";
-import { SidebarProvider, Sidebar, SidebarInset } from "@/components/ui/sidebar";
-import Header from "./Header";
-import AppSidebar from "./AppSidebar";
+import { Outlet } from 'react-router-dom';
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarInset,
+} from '@/components/ui/sidebar';
+import Header from './Header';
+import AppSidebar from './AppSidebar';
 
 const Layout = () => {
   return (

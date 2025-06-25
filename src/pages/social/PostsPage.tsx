@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +11,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 import {
   Plus,
   Search,
@@ -24,20 +24,22 @@ import {
   Trash2,
   Image as ImageIcon,
   Paperclip,
-} from "lucide-react";
-import usePostStore from "@/stores/postStore";
-import { Post } from "@/stores/postStore";
-import CreatePostModal from "@/components/dashboard/CreatePostModal";
+} from 'lucide-react';
+import usePostStore from '@/stores/postStore';
+import { Post } from '@/stores/postStore';
+import CreatePostModal from '@/components/dashboard/CreatePostModal';
 
 const PostsPage = () => {
   const { posts, updatePost, deletePost } = usePostStore();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
-  const [editingContent, setEditingContent] = useState("");
+  const [editingContent, setEditingContent] = useState('');
   const [editingFile, setEditingFile] = useState<File | null>(null);
-  const [editingFilePreview, setEditingFilePreview] = useState<string | null>(null);
+  const [editingFilePreview, setEditingFilePreview] = useState<string | null>(
+    null
+  );
   const [postToDelete, setPostToDelete] = useState<number | null>(null);
   const editFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,7 +51,7 @@ const PostsPage = () => {
 
   const handleCancelEdit = () => {
     setEditingPostId(null);
-    setEditingContent("");
+    setEditingContent('');
     setEditingFile(null);
     setEditingFilePreview(null);
   };
@@ -83,7 +85,7 @@ const PostsPage = () => {
   };
 
   const filteredPosts = posts.filter(
-    (post) =>
+    post =>
       post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -97,7 +99,10 @@ const PostsPage = () => {
             Manage and monitor all your social media posts
           </p>
         </div>
-        <Button onClick={() => setCreateModalOpen(true)} className="flex items-center gap-2">
+        <Button
+          onClick={() => setCreateModalOpen(true)}
+          className="flex items-center gap-2"
+        >
           <Plus className="h-4 w-4" />
           Create Post
         </Button>
@@ -110,7 +115,7 @@ const PostsPage = () => {
             placeholder="Search posts..."
             className="pl-10"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
         <Button variant="outline" className="flex items-center gap-2">
@@ -120,8 +125,11 @@ const PostsPage = () => {
       </div>
 
       <div className="grid gap-6">
-        {filteredPosts.map((post) => (
-          <div key={post.id} className="bg-white p-6 rounded-lg border shadow-sm">
+        {filteredPosts.map(post => (
+          <div
+            key={post.id}
+            className="bg-white p-6 rounded-lg border shadow-sm"
+          >
             <div className="flex items-start gap-4">
               <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-sm font-medium">
@@ -133,9 +141,9 @@ const PostsPage = () => {
                   <p className="font-medium">{post.author}</p>
                   <span
                     className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      post.status === "published"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-blue-100 text-blue-800"
+                      post.status === 'published'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-blue-100 text-blue-800'
                     }`}
                   >
                     {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
@@ -146,7 +154,7 @@ const PostsPage = () => {
                   <div className="mt-2">
                     <Textarea
                       value={editingContent}
-                      onChange={(e) => setEditingContent(e.target.value)}
+                      onChange={e => setEditingContent(e.target.value)}
                       className="w-full"
                     />
                     {editingFilePreview && (
@@ -206,9 +214,9 @@ const PostsPage = () => {
                     )}
                     <div className="flex items-center justify-between mt-2">
                       <p className="text-xs text-muted-foreground">
-                        {post.status === "scheduled"
+                        {post.status === 'scheduled'
                           ? `Scheduled for: ${new Date(
-                              post.scheduledAt || ""
+                              post.scheduledAt || ''
                             ).toLocaleString()}`
                           : `Published on: ${new Date(
                               post.timestamp
@@ -240,7 +248,7 @@ const PostsPage = () => {
           </div>
         ))}
       </div>
-      
+
       <CreatePostModal
         isOpen={isCreateModalOpen}
         onClose={() => setCreateModalOpen(false)}
@@ -254,7 +262,10 @@ const PostsPage = () => {
         accept="image/*,video/*"
       />
 
-      <AlertDialog open={postToDelete !== null} onOpenChange={() => setPostToDelete(null)}>
+      <AlertDialog
+        open={postToDelete !== null}
+        onOpenChange={() => setPostToDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -264,8 +275,12 @@ const PostsPage = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setPostToDelete(null)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDeleteConfirm(postToDelete!)}>
+            <AlertDialogCancel onClick={() => setPostToDelete(null)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleDeleteConfirm(postToDelete!)}
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

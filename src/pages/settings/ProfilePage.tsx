@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Camera, Save, User } from "lucide-react";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Camera, Save, User } from 'lucide-react';
 
 const ProfilePage = () => {
   const [formData, setFormData] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    bio: "Social media manager passionate about creating engaging content and building communities.",
-    company: "Digital Marketing Agency",
-    location: "San Francisco, CA",
-    website: "https://johndoe.com",
-    phone: "+1 (555) 123-4567",
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    bio: 'Social media manager passionate about creating engaging content and building communities.',
+    company: 'Digital Marketing Agency',
+    location: 'San Francisco, CA',
+    website: 'https://johndoe.com',
+    phone: '+1 (555) 123-4567',
   });
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -49,9 +49,9 @@ const ProfilePage = () => {
             <div className="flex justify-center">
               <div className="relative">
                 <Avatar className="w-32 h-32">
-                  <AvatarImage 
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=face" 
-                    alt="Profile" 
+                  <AvatarImage
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=face"
+                    alt="Profile"
                   />
                   <AvatarFallback>
                     <User className="w-16 h-16" />
@@ -88,7 +88,7 @@ const ProfilePage = () => {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  onChange={e => handleInputChange('name', e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -97,7 +97,7 @@ const ProfilePage = () => {
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  onChange={e => handleInputChange('email', e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -105,7 +105,7 @@ const ProfilePage = () => {
                 <Input
                   id="company"
                   value={formData.company}
-                  onChange={(e) => handleInputChange("company", e.target.value)}
+                  onChange={e => handleInputChange('company', e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -113,7 +113,7 @@ const ProfilePage = () => {
                 <Input
                   id="location"
                   value={formData.location}
-                  onChange={(e) => handleInputChange("location", e.target.value)}
+                  onChange={e => handleInputChange('location', e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -122,7 +122,7 @@ const ProfilePage = () => {
                   id="website"
                   type="url"
                   value={formData.website}
-                  onChange={(e) => handleInputChange("website", e.target.value)}
+                  onChange={e => handleInputChange('website', e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -131,7 +131,7 @@ const ProfilePage = () => {
                   id="phone"
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
+                  onChange={e => handleInputChange('phone', e.target.value)}
                 />
               </div>
             </div>
@@ -141,7 +141,7 @@ const ProfilePage = () => {
                 id="bio"
                 placeholder="Tell us about yourself..."
                 value={formData.bio}
-                onChange={(e) => handleInputChange("bio", e.target.value)}
+                onChange={e => handleInputChange('bio', e.target.value)}
                 rows={4}
               />
             </div>
@@ -156,12 +156,8 @@ const ProfilePage = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Button variant="outline">
-              Change Password
-            </Button>
-            <Button variant="outline">
-              Enable Two-Factor Authentication
-            </Button>
+            <Button variant="outline">Change Password</Button>
+            <Button variant="outline">Enable Two-Factor Authentication</Button>
           </div>
         </CardContent>
       </Card>

@@ -167,6 +167,110 @@ test('renders button with text', () => {
 - If you add new libraries, you may need to add type declarations in `declarations.d.ts`.
 - Restart your IDE or TypeScript server after making changes to config or type files.
 
+## Code Formatting with Prettier
+
+This project uses **Prettier** for consistent code formatting across all files.
+
+### Setup Steps
+
+1. **Install Dependencies**
+   Run the following command in your project root:
+   ```sh
+   npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
+   ```
+
+2. **Prettier Configuration**
+   Create a file named `.prettierrc` in your project root:
+   ```json
+   {
+     "semi": true,
+     "trailingComma": "es5",
+     "singleQuote": true,
+     "printWidth": 80,
+     "tabWidth": 2,
+     "useTabs": false,
+     "bracketSpacing": true,
+     "bracketSameLine": false,
+     "arrowParens": "avoid",
+     "endOfLine": "lf"
+   }
+   ```
+
+3. **Prettier Ignore File**
+   Create a file named `.prettierignore` in your project root:
+   ```
+   node_modules
+   dist
+   build
+   .next
+   .vercel
+   .env
+   .env.local
+   .env.development.local
+   .env.test.local
+   .env.production.local
+   *.log
+   ```
+
+4. **ESLint Integration**
+   Update your `eslint.config.js` to include Prettier:
+   ```js
+   module.exports = {
+     extends: [
+       'eslint:recommended',
+       '@typescript-eslint/recommended',
+       'prettier'
+     ],
+     plugins: [
+       '@typescript-eslint',
+       'prettier'
+     ],
+     rules: {
+       'prettier/prettier': 'error'
+     },
+     parser: '@typescript-eslint/parser',
+     parserOptions: {
+       ecmaVersion: 'latest',
+       sourceType: 'module',
+       ecmaFeatures: {
+         jsx: true
+       }
+     }
+   };
+   ```
+
+5. **Add Scripts to package.json**
+   Add these scripts to your `package.json`:
+   ```json
+   "scripts": {
+     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
+     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
+   }
+   ```
+
+### How to Use Prettier
+
+```sh
+npm run format        # Format all files
+npm run format:check  # Check if files are formatted correctly
+```
+
+### VS Code Integration (Optional)
+
+1. Install the Prettier extension for VS Code
+2. Add this to your `.vscode/settings.json`:
+   ```json
+   {
+     "editor.defaultFormatter": "esbenp.prettier-vscode",
+     "editor.formatOnSave": true,
+     "editor.codeActionsOnSave": {
+       "source.fixAll.eslint": true
+     }
+   }
+   ```
+
+This will automatically format your code when you save files in VS Code.
+
 ## Application Structure & Features
 
 ### Routing & Pages
