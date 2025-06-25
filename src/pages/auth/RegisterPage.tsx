@@ -1,18 +1,25 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Building, Eye, EyeOff } from "lucide-react";
-import { useAuthStore } from "@/stores/authStore";
-import { toast } from "@/components/ui/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Building, Eye, EyeOff } from 'lucide-react';
+import { useAuthStore } from '@/stores/authStore';
+import { toast } from '@/components/ui/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -20,12 +27,12 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       toast({
-        title: "Password mismatch",
-        description: "Please make sure your passwords match.",
-        variant: "destructive",
+        title: 'Password mismatch',
+        description: 'Please make sure your passwords match.',
+        variant: 'destructive',
       });
       return;
     }
@@ -35,9 +42,9 @@ const RegisterPage = () => {
       setShowModal(true);
     } catch (error) {
       toast({
-        title: "Registration failed",
-        description: "Please try again or contact support.",
-        variant: "destructive",
+        title: 'Registration failed',
+        description: 'Please try again or contact support.',
+        variant: 'destructive',
       });
     }
   };
@@ -50,14 +57,15 @@ const RegisterPage = () => {
           <DialogHeader>
             <DialogTitle>Account Created!</DialogTitle>
             <DialogDescription>
-              Your account has been created. Please log in with your new credentials.
+              Your account has been created. Please log in with your new
+              credentials.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button
               onClick={() => {
                 setShowModal(false);
-                navigate("/login");
+                navigate('/login');
               }}
               className="w-full"
             >
@@ -69,9 +77,9 @@ const RegisterPage = () => {
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img 
-              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
-              alt="Client Nest Logo" 
+            <img
+              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png"
+              alt="Client Nest Logo"
               className="h-12 w-12 object-contain rounded-lg"
             />
             <span className="text-2xl font-bold">Client Nest</span>
@@ -90,7 +98,7 @@ const RegisterPage = () => {
               type="text"
               required
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               placeholder="Enter your full name"
               className="mt-1 transition-shadow focus:shadow-outline"
               autoComplete="name"
@@ -104,7 +112,7 @@ const RegisterPage = () => {
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="mt-1 transition-shadow focus:shadow-outline"
               autoComplete="email"
@@ -116,10 +124,10 @@ const RegisterPage = () => {
             <div className="relative mt-1">
               <Input
                 id="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 placeholder="Create a password"
                 className="pr-10 transition-shadow focus:shadow-outline"
                 autoComplete="new-password"
@@ -145,21 +153,25 @@ const RegisterPage = () => {
               type="password"
               required
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
               className="mt-1 transition-shadow focus:shadow-outline"
               autoComplete="new-password"
             />
           </div>
 
-          <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create account"}
+          <Button
+            type="submit"
+            className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Creating account...' : 'Create account'}
           </Button>
         </form>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link
               to="/login"
               className="font-medium text-primary hover:text-blue-600 transition-colors duration-200 hover:underline"

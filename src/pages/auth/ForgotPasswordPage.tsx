@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Building, ArrowLeft } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Building, ArrowLeft } from 'lucide-react';
+import { toast } from '@/components/ui/use-toast';
 
 const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setIsSubmitted(true);
     setIsLoading(false);
     toast({
-      title: "Reset link sent!",
-      description: "Check your email for password reset instructions.",
+      title: 'Reset link sent!',
+      description: 'Check your email for password reset instructions.',
     });
   };
 
@@ -35,7 +35,7 @@ const ForgotPasswordPage = () => {
             <span className="text-2xl font-bold">Client Nest</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">
-            {isSubmitted ? "Check your email" : "Forgot password?"}
+            {isSubmitted ? 'Check your email' : 'Forgot password?'}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             {isSubmitted
@@ -53,22 +53,27 @@ const ForgotPasswordPage = () => {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="mt-1 transition-shadow focus:shadow-outline"
                 autoComplete="email"
               />
             </div>
 
-            <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
-              {isLoading ? "Sending..." : "Send reset link"}
+            <Button
+              type="submit"
+              className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Sending...' : 'Send reset link'}
             </Button>
           </form>
         ) : (
           <div className="space-y-6">
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <p className="text-sm text-green-800">
-                If an account with that email exists, you'll receive a password reset link shortly.
+                If an account with that email exists, you'll receive a password
+                reset link shortly.
               </p>
             </div>
           </div>

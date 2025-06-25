@@ -1,81 +1,84 @@
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Plus, Search, MoreHorizontal, Mail, User } from "lucide-react";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Plus, Search, MoreHorizontal, Mail, User } from 'lucide-react';
 
 const TeamPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const teamMembers = [
     {
       id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "admin",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-      status: "active",
-      joinedAt: "2024-01-01T00:00:00Z",
-      lastActive: "2024-01-15T10:30:00Z",
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      role: 'admin',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+      status: 'active',
+      joinedAt: '2024-01-01T00:00:00Z',
+      lastActive: '2024-01-15T10:30:00Z',
     },
     {
       id: 2,
-      name: "Sarah Johnson",
-      email: "sarah.j@example.com",
-      role: "manager",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b332c6b7?w=40&h=40&fit=crop&crop=face",
-      status: "active",
-      joinedAt: "2024-01-05T00:00:00Z",
-      lastActive: "2024-01-15T09:15:00Z",
+      name: 'Sarah Johnson',
+      email: 'sarah.j@example.com',
+      role: 'manager',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b332c6b7?w=40&h=40&fit=crop&crop=face',
+      status: 'active',
+      joinedAt: '2024-01-05T00:00:00Z',
+      lastActive: '2024-01-15T09:15:00Z',
     },
     {
       id: 3,
-      name: "Mike Chen",
-      email: "mike.chen@example.com",
-      role: "member",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      status: "active",
-      joinedAt: "2024-01-10T00:00:00Z",
-      lastActive: "2024-01-14T16:45:00Z",
+      name: 'Mike Chen',
+      email: 'mike.chen@example.com',
+      role: 'member',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      status: 'active',
+      joinedAt: '2024-01-10T00:00:00Z',
+      lastActive: '2024-01-14T16:45:00Z',
     },
     {
       id: 4,
-      name: "Alex Rivera",
-      email: "alex.r@example.com",
-      role: "member",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      status: "pending",
-      joinedAt: "2024-01-14T00:00:00Z",
+      name: 'Alex Rivera',
+      email: 'alex.r@example.com',
+      role: 'member',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      status: 'pending',
+      joinedAt: '2024-01-14T00:00:00Z',
       lastActive: null,
     },
   ];
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case "admin":
-        return "bg-red-100 text-red-800";
-      case "manager":
-        return "bg-blue-100 text-blue-800";
-      case "member":
-        return "bg-green-100 text-green-800";
+      case 'admin':
+        return 'bg-red-100 text-red-800';
+      case 'manager':
+        return 'bg-blue-100 text-blue-800';
+      case 'member':
+        return 'bg-green-100 text-green-800';
       default:
-        return "bg-gray-100 text-gray-800";
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "inactive":
-        return "bg-gray-100 text-gray-800";
+      case 'active':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'inactive':
+        return 'bg-gray-100 text-gray-800';
       default:
-        return "bg-gray-100 text-gray-800";
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -129,7 +132,7 @@ const TeamPage = () => {
         <Input
           placeholder="Search team members..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           className="pl-10"
         />
       </div>
@@ -141,7 +144,7 @@ const TeamPage = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {teamMembers.map((member) => (
+            {teamMembers.map(member => (
               <div
                 key={member.id}
                 className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
@@ -171,7 +174,8 @@ const TeamPage = () => {
                       Joined {new Date(member.joinedAt).toLocaleDateString()}
                       {member.lastActive && (
                         <span>
-                          {" • "}Last active {new Date(member.lastActive).toLocaleDateString()}
+                          {' • '}Last active{' '}
+                          {new Date(member.lastActive).toLocaleDateString()}
                         </span>
                       )}
                     </div>
@@ -179,7 +183,7 @@ const TeamPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  {member.status === "pending" && (
+                  {member.status === 'pending' && (
                     <Button variant="outline" size="sm">
                       Resend Invite
                     </Button>

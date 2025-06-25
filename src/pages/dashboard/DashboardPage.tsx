@@ -1,14 +1,26 @@
-import { BarChart3, Edit, Image as ImageIcon, MessageSquare, Paperclip, PenTool, Plus, Trash2, TrendingUp, Users, Calendar } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
-import CreatePostModal from "../../components/dashboard/CreatePostModal";
-import SchedulePostModal from "../../components/dashboard/SchedulePostModal";
-import usePostStore from "../../stores/postStore";
-import { Post } from "../../stores/postStore";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  BarChart3,
+  Edit,
+  Image as ImageIcon,
+  MessageSquare,
+  Paperclip,
+  PenTool,
+  Plus,
+  Trash2,
+  TrendingUp,
+  Users,
+  Calendar,
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import CreatePostModal from '../../components/dashboard/CreatePostModal';
+import SchedulePostModal from '../../components/dashboard/SchedulePostModal';
+import usePostStore from '../../stores/postStore';
+import { Post } from '../../stores/postStore';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +30,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -27,75 +39,77 @@ const DashboardPage = () => {
   const { posts, updatePost, deletePost } = usePostStore();
 
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
-  const [editingContent, setEditingContent] = useState("");
+  const [editingContent, setEditingContent] = useState('');
   const [editingFile, setEditingFile] = useState<File | null>(null);
-  const [editingFilePreview, setEditingFilePreview] = useState<string | null>(null);
+  const [editingFilePreview, setEditingFilePreview] = useState<string | null>(
+    null
+  );
   const [postToDelete, setPostToDelete] = useState<number | null>(null);
   const editFileInputRef = useRef<HTMLInputElement>(null);
 
   const stats = [
     {
-      title: "Total Posts",
-      value: "2,847",
-      change: "+12%",
+      title: 'Total Posts',
+      value: '2,847',
+      change: '+12%',
       icon: PenTool,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100",
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100',
     },
     {
-      title: "Comments",
-      value: "8,251",
-      change: "+8%",
+      title: 'Comments',
+      value: '8,251',
+      change: '+8%',
       icon: MessageSquare,
-      color: "text-green-600",
-      bgColor: "bg-green-100",
+      color: 'text-green-600',
+      bgColor: 'bg-green-100',
     },
     {
-      title: "Engagement Rate",
-      value: "4.2%",
-      change: "+2.1%",
+      title: 'Engagement Rate',
+      value: '4.2%',
+      change: '+2.1%',
       icon: TrendingUp,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100',
     },
     {
-      title: "Team Members",
-      value: "12",
-      change: "+1",
+      title: 'Team Members',
+      value: '12',
+      change: '+1',
       icon: Users,
-      color: "text-orange-600",
-      bgColor: "bg-orange-100",
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-100',
     },
   ];
 
   const recentActivity = [
     {
       id: 1,
-      action: "New post published",
-      user: "Sarah Chen",
-      time: "2 minutes ago",
-      type: "post",
+      action: 'New post published',
+      user: 'Sarah Chen',
+      time: '2 minutes ago',
+      type: 'post',
     },
     {
       id: 2,
-      action: "Comment responded to",
-      user: "Mike Johnson",
-      time: "15 minutes ago",
-      type: "comment",
+      action: 'Comment responded to',
+      user: 'Mike Johnson',
+      time: '15 minutes ago',
+      type: 'comment',
     },
     {
       id: 3,
-      action: "Post scheduled",
-      user: "Lisa Wang",
-      time: "1 hour ago",
-      type: "schedule",
+      action: 'Post scheduled',
+      user: 'Lisa Wang',
+      time: '1 hour ago',
+      type: 'schedule',
     },
     {
       id: 4,
-      action: "Analytics report generated",
-      user: "David Kim",
-      time: "2 hours ago",
-      type: "analytics",
+      action: 'Analytics report generated',
+      user: 'David Kim',
+      time: '2 hours ago',
+      type: 'analytics',
     },
   ];
 
@@ -107,7 +121,7 @@ const DashboardPage = () => {
 
   const handleCancelEdit = () => {
     setEditingPostId(null);
-    setEditingContent("");
+    setEditingContent('');
     setEditingFile(null);
     setEditingFilePreview(null);
   };
@@ -149,13 +163,14 @@ const DashboardPage = () => {
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome back! Here's what's happening with your social media management.
+          Welcome back! Here's what's happening with your social media
+          management.
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
+        {stats.map(stat => (
           <div
             key={stat.title}
             className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow"
@@ -194,7 +209,7 @@ const DashboardPage = () => {
             </Button>
           </div>
           <div className="space-y-4">
-            {posts.map((post) => (
+            {posts.map(post => (
               <div
                 key={post.id}
                 className="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors"
@@ -209,12 +224,13 @@ const DashboardPage = () => {
                     <p className="font-medium">{post.author}</p>
                     <span
                       className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        post.status === "published"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-blue-100 text-blue-800"
+                        post.status === 'published'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-blue-100 text-blue-800'
                       }`}
                     >
-                      {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
+                      {post.status.charAt(0).toUpperCase() +
+                        post.status.slice(1)}
                     </span>
                   </div>
 
@@ -222,7 +238,7 @@ const DashboardPage = () => {
                     <div className="mt-2">
                       <Textarea
                         value={editingContent}
-                        onChange={(e) => setEditingContent(e.target.value)}
+                        onChange={e => setEditingContent(e.target.value)}
                         className="w-full"
                       />
                       {editingFilePreview && (
@@ -238,7 +254,7 @@ const DashboardPage = () => {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
-                            onClick={() => triggerEditFileSelect("image/*")}
+                            onClick={() => triggerEditFileSelect('image/*')}
                           >
                             <ImageIcon className="h-5 w-5" />
                           </Button>
@@ -246,7 +262,9 @@ const DashboardPage = () => {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
-                            onClick={() => triggerEditFileSelect("image/*,video/*")}
+                            onClick={() =>
+                              triggerEditFileSelect('image/*,video/*')
+                            }
                           >
                             <Paperclip className="h-5 w-5" />
                           </Button>
@@ -259,7 +277,10 @@ const DashboardPage = () => {
                           >
                             Cancel
                           </Button>
-                          <Button size="sm" onClick={() => handleSaveEdit(post.id)}>
+                          <Button
+                            size="sm"
+                            onClick={() => handleSaveEdit(post.id)}
+                          >
                             Save Changes
                           </Button>
                         </div>
@@ -279,7 +300,7 @@ const DashboardPage = () => {
                       )}
                       <div className="flex items-center justify-between mt-2">
                         <p className="text-xs text-muted-foreground">
-                          {post.status === "scheduled" && post.scheduledAt
+                          {post.status === 'scheduled' && post.scheduledAt
                             ? `Scheduled for: ${new Date(
                                 post.scheduledAt
                               ).toLocaleString()}`
@@ -333,7 +354,7 @@ const DashboardPage = () => {
               <span className="font-medium">Schedule Post</span>
             </button>
             <button
-              onClick={() => navigate("/analytics")}
+              onClick={() => navigate('/analytics')}
               className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
             >
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -358,7 +379,10 @@ const DashboardPage = () => {
         onChange={handleEditFileChange}
       />
 
-      <AlertDialog open={postToDelete !== null} onOpenChange={() => setPostToDelete(null)}>
+      <AlertDialog
+        open={postToDelete !== null}
+        onOpenChange={() => setPostToDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -368,7 +392,9 @@ const DashboardPage = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setPostToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setPostToDelete(null)}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction onClick={() => handleDelete(postToDelete!)}>
               Continue
             </AlertDialogAction>

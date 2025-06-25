@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Building, Eye, EyeOff } from "lucide-react";
-import { useAuthStore } from "@/stores/authStore";
-import { toast } from "@/components/ui/use-toast";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Building, Eye, EyeOff } from 'lucide-react';
+import { useAuthStore } from '@/stores/authStore';
+import { toast } from '@/components/ui/use-toast';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login, isLoading } = useAuthStore();
@@ -19,15 +19,15 @@ const LoginPage = () => {
     try {
       await login(email, password);
       toast({
-        title: "Welcome back!",
+        title: 'Welcome back!',
         description: "You've successfully logged in to Client Nest.",
       });
-      navigate("/app/dashboard");
+      navigate('/app/dashboard');
     } catch (error) {
       toast({
-        title: "Login failed",
-        description: "Please check your credentials and try again.",
-        variant: "destructive",
+        title: 'Login failed',
+        description: 'Please check your credentials and try again.',
+        variant: 'destructive',
       });
     }
   };
@@ -37,9 +37,9 @@ const LoginPage = () => {
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img 
-              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png" 
-              alt="Client Nest Logo" 
+            <img
+              src="/ChatGPT_Image_Jun_21__2025__03_07_05_PM-removebg-preview.png"
+              alt="Client Nest Logo"
               className="h-12 w-12 object-contain rounded-lg"
             />
             <span className="text-2xl font-bold">Client Nest</span>
@@ -58,7 +58,7 @@ const LoginPage = () => {
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="mt-1 transition-shadow focus:shadow-outline"
               autoComplete="email"
@@ -70,10 +70,10 @@ const LoginPage = () => {
             <div className="relative mt-1">
               <Input
                 id="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 className="pr-10 transition-shadow focus:shadow-outline"
                 autoComplete="current-password"
@@ -101,14 +101,18 @@ const LoginPage = () => {
             </Link>
           </div>
 
-          <Button type="submit" className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
+          <Button
+            type="submit"
+            className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <Link
               to="/register"
               className="font-medium text-primary hover:text-blue-600 transition-colors duration-200 hover:underline"

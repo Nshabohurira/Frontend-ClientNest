@@ -5,46 +5,51 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar as CalendarIcon, Loader2, Paperclip, Image as ImageIcon } from "lucide-react";
-import { format } from "date-fns";
-import { useState, useEffect, useRef } from "react";
-import Lottie from "lottie-react";
-import successAnimation from "@/assets/success-animation.json";
-import usePostStore from "@/stores/postStore";
+} from '@/components/ui/popover';
+import {
+  Calendar as CalendarIcon,
+  Loader2,
+  Paperclip,
+  Image as ImageIcon,
+} from 'lucide-react';
+import { format } from 'date-fns';
+import { useState, useEffect, useRef } from 'react';
+import Lottie from 'lottie-react';
+import successAnimation from '@/assets/success-animation.json';
+import usePostStore from '@/stores/postStore';
 
 interface SchedulePostModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type ScheduleStatus = "idle" | "loading" | "success";
+type ScheduleStatus = 'idle' | 'loading' | 'success';
 
 const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [time, setTime] = useState("12:00");
-  const [status, setStatus] = useState<ScheduleStatus>("idle");
+  const [time, setTime] = useState('12:00');
+  const [status, setStatus] = useState<ScheduleStatus>('idle');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const addPost = usePostStore((state) => state.addPost);
+  const addPost = usePostStore(state => state.addPost);
 
   useEffect(() => {
-    if (status === "success") {
+    if (status === 'success') {
       const timer = setTimeout(() => {
         onClose();
-        setStatus("idle");
-        setContent("");
+        setStatus('idle');
+        setContent('');
         setSelectedFile(null);
       }, 2000);
       return () => clearTimeout(timer);
@@ -54,20 +59,20 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
   const handleSchedule = () => {
     if (!date || !content.trim()) return;
 
-    setStatus("loading");
+    setStatus('loading');
 
-    const [hours, minutes] = time.split(":").map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
     const scheduledAt = new Date(date);
     scheduledAt.setHours(hours, minutes);
 
     setTimeout(() => {
       addPost({
         content,
-        status: "scheduled",
+        status: 'scheduled',
         scheduledAt: scheduledAt.toISOString(),
         image: selectedFile ? URL.createObjectURL(selectedFile) : undefined,
       });
-      setStatus("success");
+      setStatus('success');
     }, 1500);
   };
 
@@ -89,15 +94,13 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Schedule Post</DialogTitle>
-          <DialogDescription>
-            Plan your content in advance.
-          </DialogDescription>
+          <DialogDescription>Plan your content in advance.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Textarea
             placeholder="What would you like to schedule?"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={e => setContent(e.target.value)}
             className="min-h-[120px]"
           />
           {selectedFile && (
@@ -110,14 +113,14 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => triggerFileSelect("image/*")}
+                onClick={() => triggerFileSelect('image/*')}
               >
                 <ImageIcon className="h-5 w-5" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => triggerFileSelect("image/*,video/*")}
+                onClick={() => triggerFileSelect('image/*,video/*')}
               >
                 <Paperclip className="h-5 w-5" />
               </Button>
@@ -125,9 +128,9 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
             <div className="grid grid-cols-2 gap-2 ml-auto">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant={"outline"} className="justify-start">
+                  <Button variant={'outline'} className="justify-start">
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    {date ? format(date, 'PPP') : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -147,7 +150,7 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
                   id="time"
                   type="time"
                   value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  onChange={e => setTime(e.target.value)}
                 />
               </div>
             </div>
@@ -164,23 +167,23 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
             type="button"
             variant="secondary"
             onClick={onClose}
-            disabled={status === "loading"}
+            disabled={status === 'loading'}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             onClick={handleSchedule}
-            disabled={status === "loading" || !content.trim()}
+            disabled={status === 'loading' || !content.trim()}
           >
-            {status === "loading" && (
+            {status === 'loading' && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {status === "loading" ? "Scheduling..." : "Schedule Post"}
+            {status === 'loading' ? 'Scheduling...' : 'Schedule Post'}
           </Button>
         </DialogFooter>
 
-        {status === "success" && (
+        {status === 'success' && (
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
             <Lottie
               animationData={successAnimation}
@@ -194,4 +197,4 @@ const SchedulePostModal = ({ isOpen, onClose }: SchedulePostModalProps) => {
   );
 };
 
-export default SchedulePostModal; 
+export default SchedulePostModal;

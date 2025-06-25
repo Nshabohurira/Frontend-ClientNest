@@ -1,28 +1,34 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useAuthStore } from "./stores/authStore";
-import Layout from "./components/layout/Layout";
-import LandingPage from "./pages/LandingPage";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
+import { useAuthStore } from './stores/authStore';
+import Layout from './components/layout/Layout';
+import LandingPage from './pages/LandingPage';
 
 // Auth Pages
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
-import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 
 // Dashboard Pages
-import DashboardPage from "./pages/dashboard/DashboardPage";
-import OverviewPage from "./pages/dashboard/OverviewPage";
-import AnalyticsPage from "./pages/dashboard/AnalyticsPage";
+import DashboardPage from './pages/dashboard/DashboardPage';
+import OverviewPage from './pages/dashboard/OverviewPage';
+import AnalyticsPage from './pages/dashboard/AnalyticsPage';
 
 // Social Pages
-import PostsPage from "./pages/social/PostsPage";
-import CommentsPage from "./pages/social/CommentsPage";
-import SchedulePage from "./pages/social/SchedulePage";
-import ConnectorsPage from "./pages/social/ConnectorsPage";
+import PostsPage from './pages/social/PostsPage';
+import CommentsPage from './pages/social/CommentsPage';
+import SchedulePage from './pages/social/SchedulePage';
+import ConnectorsPage from './pages/social/ConnectorsPage';
 
 // Settings Pages
-import ProfilePage from "./pages/settings/ProfilePage";
-import TeamPage from "./pages/settings/TeamPage";
-import BillingPage from "./pages/settings/BillingPage";
+import ProfilePage from './pages/settings/ProfilePage';
+import TeamPage from './pages/settings/TeamPage';
+import BillingPage from './pages/settings/BillingPage';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuthStore();
@@ -39,11 +45,14 @@ const AppRouterInternal = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       {/* Protected Routes */}
-      <Route path="/app" element={
-        <ProtectedRoute>
-          <Layout key={location.pathname} />
-        </ProtectedRoute>
-      }>
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <Layout key={location.pathname} />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Navigate to="/app/dashboard" />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="overview" element={<OverviewPage />} />
@@ -58,7 +67,7 @@ const AppRouterInternal = () => {
       </Route>
     </Routes>
   );
-}
+};
 
 const AppRouter = () => {
   return (

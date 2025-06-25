@@ -5,41 +5,41 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Image, Smile, Paperclip, Loader2 } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import Lottie from "lottie-react";
-import successAnimation from "@/assets/success-animation.json";
-import usePostStore from "@/stores/postStore";
+} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Image, Smile, Paperclip, Loader2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import Lottie from 'lottie-react';
+import successAnimation from '@/assets/success-animation.json';
+import usePostStore from '@/stores/postStore';
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type PublishStatus = "idle" | "loading" | "success";
+type PublishStatus = 'idle' | 'loading' | 'success';
 
 const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
-  const [postContent, setPostContent] = useState("");
+  const [postContent, setPostContent] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [publishStatus, setPublishStatus] = useState<PublishStatus>("idle");
-  const addPost = usePostStore((state) => state.addPost);
+  const [publishStatus, setPublishStatus] = useState<PublishStatus>('idle');
+  const addPost = usePostStore(state => state.addPost);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (publishStatus === "success") {
+    if (publishStatus === 'success') {
       const timer = setTimeout(() => {
         onClose();
-        setPublishStatus("idle");
-        setPostContent("");
+        setPublishStatus('idle');
+        setPostContent('');
         setSelectedFile(null);
       }, 2000);
       return () => clearTimeout(timer);
@@ -60,18 +60,18 @@ const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
   };
 
   const onEmojiClick = (emojiData: EmojiClickData) => {
-    setPostContent((prevContent) => prevContent + emojiData.emoji);
+    setPostContent(prevContent => prevContent + emojiData.emoji);
   };
 
   const handlePublish = () => {
-    setPublishStatus("loading");
+    setPublishStatus('loading');
     setTimeout(() => {
       addPost({
         content: postContent,
         image: selectedFile ? URL.createObjectURL(selectedFile) : undefined,
-        status: "published",
+        status: 'published',
       });
-      setPublishStatus("success");
+      setPublishStatus('success');
     }, 1500);
   };
 
@@ -89,7 +89,7 @@ const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
             placeholder="What's on your mind?"
             className="min-h-[120px]"
             value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
+            onChange={e => setPostContent(e.target.value)}
           />
           {selectedFile && (
             <div className="text-sm text-muted-foreground">
@@ -97,10 +97,18 @@ const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
             </div>
           )}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => triggerFileSelect("image/*,video/*")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => triggerFileSelect('image/*,video/*')}
+            >
               <Paperclip className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => triggerFileSelect("image/*")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => triggerFileSelect('image/*')}
+            >
               <Image className="h-5 w-5" />
             </Button>
             <Popover>
@@ -126,23 +134,23 @@ const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
             type="button"
             variant="secondary"
             onClick={onClose}
-            disabled={publishStatus === "loading"}
+            disabled={publishStatus === 'loading'}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             onClick={handlePublish}
-            disabled={publishStatus === "loading" || !postContent.trim()}
+            disabled={publishStatus === 'loading' || !postContent.trim()}
           >
-            {publishStatus === "loading" && (
+            {publishStatus === 'loading' && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {publishStatus === "loading" ? "Publishing..." : "Publish"}
+            {publishStatus === 'loading' ? 'Publishing...' : 'Publish'}
           </Button>
         </DialogFooter>
 
-        {publishStatus === "success" && (
+        {publishStatus === 'success' && (
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
             <Lottie
               animationData={successAnimation}
@@ -156,4 +164,4 @@ const CreatePostModal = ({ isOpen, onClose }: CreatePostModalProps) => {
   );
 };
 
-export default CreatePostModal; 
+export default CreatePostModal;
