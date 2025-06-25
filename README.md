@@ -271,6 +271,311 @@ npm run format:check  # Check if files are formatted correctly
 
 This will automatically format your code when you save files in VS Code.
 
+## State Management with Context API
+
+This project implements **React Context API** for global state management alongside Zustand, providing a React-native approach to state management.
+
+### Context Structure
+
+#### 1. **AppContext** (`src/contexts/AppContext.tsx`)
+- **Purpose**: Main application state management
+- **Features**:
+  - Theme management (light/dark)
+  - Sidebar state (open/closed)
+  - User authentication state
+  - Loading states
+  - Notification system
+  - TypeScript support with strict typing
+
+#### 2. **ThemeContext** (`src/contexts/ThemeContext.tsx`)
+- **Purpose**: Dedicated theme management
+- **Features**:
+  - Light/Dark/System theme support
+  - Automatic system theme detection
+  - localStorage persistence
+  - Real-time theme switching
+
+### Setup
+
+The Context API is already configured in your `App.tsx`:
+
+```tsx
+import { AppProvider } from './contexts/AppContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppProvider>
+        {/* Your app components */}
+      </AppProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+### Usage Examples
+
+#### Using AppContext
+```tsx
+import { useAppContext } from '@/contexts/AppContext';
+
+function MyComponent() {
+  const { 
+    state, 
+    setTheme, 
+    toggleSidebar, 
+    addNotification 
+  } = useAppContext();
+
+  const handleAddNotification = () => {
+    addNotification({
+      type: 'success',
+      title: 'Success!',
+      message: 'Operation completed successfully',
+    });
+  };
+
+  return (
+    <div>
+      <p>Theme: {state.theme}</p>
+      <p>Sidebar: {state.sidebarOpen ? 'Open' : 'Closed'}</p>
+      <button onClick={toggleSidebar}>Toggle Sidebar</button>
+      <button onClick={handleAddNotification}>Add Notification</button>
+    </div>
+  );
+}
+```
+
+#### Using ThemeContext
+```tsx
+import { useTheme } from '@/contexts/ThemeContext';
+
+function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
+
+  return (
+    <div>
+      <button onClick={() => setTheme('light')}>Light</button>
+      <button onClick={() => setTheme('dark')}>Dark</button>
+      <button onClick={() => setTheme('system')}>System</button>
+      <p>Current: {theme} (resolved: {resolvedTheme})</p>
+    </div>
+  );
+}
+```
+
+### State Structure
+
+#### AppState Interface
+```tsx
+interface AppState {
+  theme: 'light' | 'dark';
+  sidebarOpen: boolean;
+  notifications: Notification[];
+  user: User | null;
+  isLoading: boolean;
+}
+```
+
+#### Available Actions
+- `setTheme(theme)` - Change theme
+- `toggleSidebar()` - Toggle sidebar state
+- `setSidebarOpen(open)` - Set sidebar open/closed
+- `setUser(user)` - Set current user
+- `setLoading(loading)` - Set loading state
+- `addNotification(notification)` - Add new notification
+- `removeNotification(id)` - Remove notification
+- `markNotificationRead(id)` - Mark notification as read
+- `clearAllNotifications()` - Clear all notifications
+
+### Benefits
+
+1. **React Native**: Uses React's built-in Context API
+2. **TypeScript Support**: Full type safety with interfaces
+3. **Performance**: Optimized with useReducer for complex state
+4. **Developer Experience**: Custom hooks for easy usage
+5. **Flexibility**: Can be used alongside other state management solutions
+6. **Testing**: Easy to mock and test with React Testing Library
+
+### Example Component
+
+See `src/components/examples/ContextExample.tsx` for a complete example of using both contexts together.
+
+## Performance Optimization
+
+This project implements **React performance optimizations** using React.memo, useMemo, useCallback, and custom performance monitoring hooks.
+
+### Optimization Techniques
+
+#### 1. **React.memo** - Component Memoization
+Prevents unnecessary re-renders when props haven't changed:
+
+```tsx
+import React from 'react';
+
+const MyComponent = React.memo<MyComponentProps>(({ data, onAction }) => {
+  return (
+    <div>
+      {/* Component content */}
+    </div>
+  );
+});
+
+MyComponent.displayName = 'MyComponent';
+```
+
+#### 2. **useMemo** - Value Memoization
+Caches expensive calculations and derived state:
+
+```tsx
+import { useMemo } from 'react';
+
+function MyComponent({ items, filter }) {
+  // Expensive calculation - only runs when items or filter change
+  const filteredItems = useMemo(() => {
+    return items.filter(item => item.name.includes(filter));
+  }, [items, filter]);
+
+  // Derived state - only recalculates when filteredItems change
+  const statistics = useMemo(() => {
+    return {
+      count: filteredItems.length,
+      total: filteredItems.reduce((sum, item) => sum + item.value, 0),
+    };
+  }, [filteredItems]);
+
+  return (
+    <div>
+      <p>Count: {statistics.count}</p>
+      <p>Total: {statistics.total}</p>
+    </div>
+  );
+}
+```
+
+#### 3. **useCallback** - Function Memoization
+Caches function references to prevent child re-renders:
+
+```tsx
+import { useCallback } from 'react';
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+
+  // Function is memoized - won't cause child re-renders
+  const handleChildAction = useCallback((id: string) => {
+    console.log(`Action for ${id}`);
+  }, []); // Empty dependency array - function never changes
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <ChildComponent onAction={handleChildAction} />
+    </div>
+  );
+}
+```
+
+### Performance Monitoring
+
+#### Custom Hooks for Monitoring
+
+1. **usePerformanceMonitor** - Track component renders:
+```tsx
+import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
+
+function MyComponent(props) {
+  usePerformanceMonitor(props, {
+    componentName: 'MyComponent',
+    logRenders: true,
+    logRenderTime: true,
+  });
+
+  return <div>Component content</div>;
+}
+```
+
+2. **usePerformanceTimer** - Measure operation time:
+```tsx
+import { usePerformanceTimer } from '@/hooks/usePerformanceMonitor';
+
+function MyComponent() {
+  const { startTimer, endTimer } = usePerformanceTimer('Expensive Operation');
+
+  const handleExpensiveOperation = () => {
+    startTimer();
+    // ... expensive operation
+    endTimer();
+  };
+}
+```
+
+3. **useRenderTracker** - Track re-render causes:
+```tsx
+import { useRenderTracker } from '@/hooks/usePerformanceMonitor';
+
+function MyComponent({ data, filter, onAction }) {
+  useRenderTracker('MyComponent', [data, filter, onAction]);
+  
+  return <div>Component content</div>;
+}
+```
+
+### Example Components
+
+#### Optimized Components (`src/components/examples/OptimizedComponents.tsx`)
+- Demonstrates React.memo, useMemo, and useCallback usage
+- Includes performance monitoring
+- Shows memoized user management and data processing
+
+#### Performance Comparison (`src/components/examples/PerformanceComparison.tsx`)
+- Side-by-side comparison of optimized vs non-optimized components
+- Real-time render tracking
+- Demonstrates performance differences
+
+### Best Practices
+
+1. **When to use React.memo:**
+   - Components that receive the same props frequently
+   - Components with expensive render logic
+   - List items in large lists
+
+2. **When to use useMemo:**
+   - Expensive calculations (filtering, sorting, transformations)
+   - Derived state that depends on multiple values
+   - Object/array creation that's passed as props
+
+3. **When to use useCallback:**
+   - Functions passed as props to memoized children
+   - Event handlers that don't depend on changing values
+   - Functions used in useEffect dependencies
+
+4. **Performance Monitoring:**
+   - Use in development to identify optimization opportunities
+   - Monitor render counts and timing
+   - Track re-render causes
+
+### Optimization Checklist
+
+- [ ] Use React.memo for components that receive stable props
+- [ ] Use useMemo for expensive calculations
+- [ ] Use useCallback for functions passed to memoized children
+- [ ] Provide stable keys for list items
+- [ ] Monitor performance with custom hooks
+- [ ] Avoid creating objects/arrays in render
+- [ ] Use proper dependency arrays in hooks
+
+### Performance Tips
+
+1. **Profile First:** Use React DevTools Profiler to identify bottlenecks
+2. **Measure Impact:** Compare performance before and after optimizations
+3. **Don't Over-Optimize:** Only optimize components that actually need it
+4. **Monitor in Production:** Use performance monitoring in production builds
+5. **Bundle Analysis:** Use tools like webpack-bundle-analyzer to optimize bundle size
+
+See the example components for complete implementation examples.
+
 ## Application Structure & Features
 
 ### Routing & Pages
