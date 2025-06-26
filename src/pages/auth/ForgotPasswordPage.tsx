@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Building, ArrowLeft } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import { requestPasswordReset } from '@/lib/authApi';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -14,16 +15,22 @@ const ForgotPasswordPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    setIsSubmitted(true);
-    setIsLoading(false);
-    toast({
-      title: 'Reset link sent!',
-      description: 'Check your email for password reset instructions.',
-    });
+    try {
+      await requestPasswordReset(email);
+      setIsSubmitted(true);
+      toast({
+        title: 'Reset link sent!',
+        description: 'Check your email for password reset instructions.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to send reset link. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

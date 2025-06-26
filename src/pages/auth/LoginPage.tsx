@@ -8,16 +8,16 @@ import { useAuthStore } from '@/stores/authStore';
 import { toast } from '@/components/ui/use-toast';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { login, isLoading } = useAuthStore();
+  const { login, loading } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await login(username, password);
       toast({
         title: 'Welcome back!',
         description: "You've successfully logged in to Client Nest.",
@@ -52,16 +52,16 @@ const LoginPage = () => {
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="username">Username</Label>
             <Input
-              id="email"
-              type="email"
+              id="username"
+              type="text"
               required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              placeholder="Enter your username"
               className="mt-1 transition-shadow focus:shadow-outline"
-              autoComplete="email"
+              autoComplete="username"
             />
           </div>
 
@@ -104,9 +104,9 @@ const LoginPage = () => {
           <Button
             type="submit"
             className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105"
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
 

@@ -16,14 +16,16 @@ import {
 } from '@/components/ui/dialog';
 
 const RegisterPage = () => {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { register, isLoading } = useAuthStore();
+  const { register, loading } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +40,14 @@ const RegisterPage = () => {
     }
 
     try {
-      await register(email, password, name);
+      await register({
+        username,
+        email,
+        password,
+        password_confirm: confirmPassword,
+        first_name: firstName,
+        last_name: lastName,
+      });
       setShowModal(true);
     } catch (error) {
       toast({
@@ -92,19 +101,44 @@ const RegisterPage = () => {
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <Label htmlFor="name">Full name</Label>
+            <Label htmlFor="username">Username</Label>
             <Input
-              id="name"
+              id="username"
               type="text"
               required
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="Enter your full name"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              placeholder="Choose a username"
               className="mt-1 transition-shadow focus:shadow-outline"
-              autoComplete="name"
+              autoComplete="username"
             />
           </div>
-
+          <div>
+            <Label htmlFor="firstName">First name</Label>
+            <Input
+              id="firstName"
+              type="text"
+              required
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              placeholder="Enter your first name"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="given-name"
+            />
+          </div>
+          <div>
+            <Label htmlFor="lastName">Last name</Label>
+            <Input
+              id="lastName"
+              type="text"
+              required
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              placeholder="Enter your last name"
+              className="mt-1 transition-shadow focus:shadow-outline"
+              autoComplete="family-name"
+            />
+          </div>
           <div>
             <Label htmlFor="email">Email address</Label>
             <Input
@@ -118,7 +152,6 @@ const RegisterPage = () => {
               autoComplete="email"
             />
           </div>
-
           <div>
             <Label htmlFor="password">Password</Label>
             <div className="relative mt-1">
@@ -145,7 +178,6 @@ const RegisterPage = () => {
               </button>
             </div>
           </div>
-
           <div>
             <Label htmlFor="confirmPassword">Confirm password</Label>
             <Input
@@ -159,13 +191,12 @@ const RegisterPage = () => {
               autoComplete="new-password"
             />
           </div>
-
           <Button
             type="submit"
             className="w-full transition-transform duration-150 hover:scale-105 focus:scale-105"
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? 'Creating account...' : 'Create account'}
+            {loading ? 'Creating account...' : 'Create account'}
           </Button>
         </form>
 

@@ -13,6 +13,55 @@
 - Secure authentication and user management
 - Component-driven development with Storybook documentation
 
+## Authentication Integration
+
+This project uses a robust authentication flow with JWT tokens, integrated with the backend API. The main pieces are:
+
+### 1. API Layer
+- All authentication API calls are implemented in `src/lib/authApi.ts`.
+- Functions include: `registerUser`, `loginUser`, `refreshToken`, `requestPasswordReset`, and `getCurrentUser`.
+
+### 2. Zustand Auth Store
+- The global auth state is managed in `src/stores/authStore.ts` using Zustand (with persistence).
+- The store provides actions: `login`, `logout`, `register`, `refreshAccessToken`, and `loadUser`.
+- State includes: `user`, `accessToken`, `refreshToken`, `loading`, and `error`.
+- Example usage in a component:
+  ```tsx
+  const { login, loading, error } = useAuthStore();
+  ```
+
+### 3. Authentication Pages
+- **LoginPage.tsx**: Uses the `login` action from the store. Make sure to use `loading` (not `isLoading`) for the loading state.
+- **RegisterPage.tsx**: Uses the `register` action and collects all required fields: username, email, password, password_confirm, first_name, last_name.
+- **ForgotPasswordPage.tsx**: Uses the `requestPasswordReset` function from `authApi.ts` to send a reset link.
+
+### 4. Axios and Types
+- If you use `axios` (e.g., in `src/lib/axiosInstance.ts`), install it and its types:
+  ```sh
+  npm install axios
+  npm install --save-dev @types/axios
+  ```
+
+### 5. Loading State Naming
+- The Zustand store uses `loading` as the property name. Update your components to use `loading` instead of `isLoading`.
+
+### 6. Troubleshooting
+- If you see errors about missing modules (e.g., axios), install the package and its types as shown above.
+- If you see errors about `isLoading`, update your code to use `loading`.
+- Ensure all required fields are collected in the registration form.
+
+### Setup Commands
+To set up authentication and its dependencies, run the following commands in your project root:
+
+```sh
+# Install Zustand for state management
+npm install zustand
+
+# (Optional) If you use axios for API calls
+npm install axios
+npm install --save-dev @types/axios
+```
+
 ---
 
 ## Project info
