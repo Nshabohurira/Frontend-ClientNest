@@ -20,7 +20,8 @@
     "noEmit": false,
     "composite": true,
     "target": "ESNext",
-    "module": "ESNext"
+    "module": "ESNext",
+    "types": ["react", "react-dom"]
   },
   "include": [
     "src",
