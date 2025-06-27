@@ -1,4 +1,68 @@
-# Welcome to your Lovable project
+# ClientNest Frontend
+
+## Project Overview
+
+**ClientNest** is an AI-powered social media management platform. The frontend is built with React, TypeScript, Vite, Zustand, shadcn-ui, and Tailwind CSS. It provides a modern, responsive, and component-driven user interface for managing, analyzing, and growing your social media presence.
+
+**Key Features:**
+- Unified dashboard for managing multiple social media accounts
+- Advanced analytics and real-time insights
+- Automated post scheduling and content management
+- AI-powered features for content generation and optimization
+- Responsive design for desktop and mobile
+- Secure authentication and user management
+- Component-driven development with Storybook documentation
+
+## Authentication Integration
+
+This project uses a robust authentication flow with JWT tokens, integrated with the backend API. The main pieces are:
+
+### 1. API Layer
+- All authentication API calls are implemented in `src/lib/authApi.ts`.
+- Functions include: `registerUser`, `loginUser`, `refreshToken`, `requestPasswordReset`, and `getCurrentUser`.
+
+### 2. Zustand Auth Store
+- The global auth state is managed in `src/stores/authStore.ts` using Zustand (with persistence).
+- The store provides actions: `login`, `logout`, `register`, `refreshAccessToken`, and `loadUser`.
+- State includes: `user`, `accessToken`, `refreshToken`, `loading`, and `error`.
+- Example usage in a component:
+  ```tsx
+  const { login, loading, error } = useAuthStore();
+  ```
+
+### 3. Authentication Pages
+- **LoginPage.tsx**: Uses the `login` action from the store. Make sure to use `loading` (not `isLoading`) for the loading state.
+- **RegisterPage.tsx**: Uses the `register` action and collects all required fields: username, email, password, password_confirm, first_name, last_name.
+- **ForgotPasswordPage.tsx**: Uses the `requestPasswordReset` function from `authApi.ts` to send a reset link.
+
+### 4. Axios and Types
+- If you use `axios` (e.g., in `src/lib/axiosInstance.ts`), install it and its types:
+  ```sh
+  npm install axios
+  npm install --save-dev @types/axios
+  ```
+
+### 5. Loading State Naming
+- The Zustand store uses `loading` as the property name. Update your components to use `loading` instead of `isLoading`.
+
+### 6. Troubleshooting
+- If you see errors about missing modules (e.g., axios), install the package and its types as shown above.
+- If you see errors about `isLoading`, update your code to use `loading`.
+- Ensure all required fields are collected in the registration form.
+
+### Setup Commands
+To set up authentication and its dependencies, run the following commands in your project root:
+
+```sh
+# Install Zustand for state management
+npm install zustand
+
+# (Optional) If you use axios for API calls
+npm install axios
+npm install --save-dev @types/axios
+```
+
+---
 
 ## Project info
 
@@ -6,19 +70,7 @@
 
 ## How can I edit this code?
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/d933d501-14ac-437a-9e9f-cf8a937d89e1) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+You can work locally using your preferred IDE. The only requirement is having Node.js & npm installed.
 
 Follow these steps:
 
@@ -30,25 +82,25 @@ git clone <YOUR_GIT_URL>
 cd <YOUR_PROJECT_NAME>
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
 **Edit a file directly in GitHub**
-
 - Navigate to the desired file(s).
 - Click the "Edit" button (pencil icon) at the top right of the file view.
 - Make your changes and commit the changes.
 
 **Use GitHub Codespaces**
-
 - Navigate to the main page of your repository.
 - Click on the "Code" button (green button) near the top right.
 - Select the "Codespaces" tab.
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
+
+---
 
 ## What technologies are used for this project?
 

@@ -1,89 +1,113 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import * as authApi from '../lib/authApi';
 
-interface User {
-  id: string;
+type User = {
+  id: number;
+  username: string;
   email: string;
-  name: string;
-  avatar?: string;
-  role: 'admin' | 'manager' | 'member';
-}
+  first_name: string;
+  last_name: string;
+};
 
-interface AuthStore {
+type AuthState = {
   user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  accessToken: string | null;
+  refreshToken: string | null;
+  loading: boolean;
+  error: string | null;
+  login: (username: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (email: string, password: string, name: string) => Promise<void>;
-  setUser: (user: User) => void;
-  clearAuth: () => void;
-  reset: () => void;
-}
+  register: (data: {
+    username: string;
+    email: string;
+    password: string;
+    password_confirm: string;
+    first_name: string;
+    last_name: string;
+  }) => Promise<void>;
+  refreshAccessToken: () => Promise<void>;
+  loadUser: () => Promise<void>;
+};
 
-export const useAuthStore = create<AuthStore>()(
+export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
       user: null,
-      isAuthenticated: false,
-      isLoading: false,
+      accessToken: null,
+      refreshToken: null,
+      loading: false,
+      error: null,
 
-      login: async (email: string, password: string) => {
-        set({ isLoading: true });
+      login: async (username, password) => {
+        set({ loading: true, error: null });
         try {
-          // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          const user: User = {
-            id: '1',
-            email,
-            name: 'John Doe',
-            avatar:
-              'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
-            role: 'admin',
-          };
-          set({ user, isAuthenticated: true, isLoading: false });
-        } catch (error) {
-          set({ isLoading: false });
-          throw error;
+          const tokens = await authApi.loginUser({ username, password });
+          set({
+            accessToken: tokens.access,
+            refreshToken: tokens.refresh,
+          });
+          await get().loadUser();
+        } catch (err: any) {
+          set({ error: err?.detail || 'Login failed' });
+          throw err;
+        } finally {
+          set({ loading: false });
         }
       },
 
       logout: () => {
-        set({ user: null, isAuthenticated: false });
+        set({
+          user: null,
+          accessToken: null,
+          refreshToken: null,
+          error: null,
+        });
       },
 
-      register: async (email: string, password: string, name: string) => {
-        set({ isLoading: true });
+      register: async (data) => {
+        set({ loading: true, error: null });
         try {
-          // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          const user: User = {
-            id: '1',
-            email,
-            name,
-            role: 'admin',
-          };
-          set({ user, isAuthenticated: true, isLoading: false });
-        } catch (error) {
-          set({ isLoading: false });
-          throw error;
+          await authApi.registerUser(data);
+          // Optionally, auto-login after registration:
+          await get().login(data.username, data.password);
+        } catch (err: any) {
+          set({ error: err?.detail || 'Registration failed' });
+        } finally {
+          set({ loading: false });
         }
       },
 
-      setUser: (user: User) => set({ user }),
-
-      clearAuth: () => {
-        set({ user: null, isAuthenticated: false, isLoading: false });
+      refreshAccessToken: async () => {
+        const refresh = get().refreshToken;
+        if (!refresh) return;
+        try {
+          const { access } = await authApi.refreshToken(refresh);
+          set({ accessToken: access });
+        } catch (err: any) {
+          set({ error: err?.detail || 'Token refresh failed' });
+          get().logout();
+        }
       },
 
-      reset: () => {
-        set({ user: null, isAuthenticated: false, isLoading: false });
-        // Clear localStorage
-        localStorage.removeItem('auth-storage');
+      loadUser: async () => {
+        const token = get().accessToken;
+        if (!token) return;
+        try {
+          const user = await authApi.getCurrentUser(token);
+          set({ user });
+        } catch (err: any) {
+          set({ error: err?.detail || 'Failed to load user' });
+        }
       },
     }),
     {
-      name: 'auth-storage',
+      name: 'auth-storage', // localStorage key
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
+        user: state.user,
+      }),
     }
   )
 );
