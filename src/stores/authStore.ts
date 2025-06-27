@@ -1,3 +1,4 @@
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import * as authApi from '../lib/authApi';
@@ -8,6 +9,8 @@ type User = {
   email: string;
   first_name: string;
   last_name: string;
+  name?: string;
+  role?: string;
 };
 
 type AuthState = {
@@ -16,6 +19,7 @@ type AuthState = {
   refreshToken: string | null;
   loading: boolean;
   error: string | null;
+  isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   register: (data: {
@@ -38,6 +42,7 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       loading: false,
       error: null,
+      isAuthenticated: false,
 
       login: async (username, password) => {
         set({ loading: true, error: null });
@@ -46,6 +51,7 @@ export const useAuthStore = create<AuthState>()(
           set({
             accessToken: tokens.access,
             refreshToken: tokens.refresh,
+            isAuthenticated: true,
           });
           await get().loadUser();
         } catch (err: any) {
@@ -62,6 +68,7 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null,
           error: null,
+          isAuthenticated: false,
         });
       },
 
@@ -95,18 +102,25 @@ export const useAuthStore = create<AuthState>()(
         if (!token) return;
         try {
           const user = await authApi.getCurrentUser(token);
-          set({ user });
+          set({ 
+            user: {
+              ...user,
+              name: `${user.first_name} ${user.last_name}`,
+              role: 'Manager'
+            }
+          });
         } catch (err: any) {
           set({ error: err?.detail || 'Failed to load user' });
         }
       },
     }),
     {
-      name: 'auth-storage', // localStorage key
+      name: 'auth-storage',
       partialize: (state) => ({
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
         user: state.user,
+        isAuthenticated: state.isAuthenticated,
       }),
     }
   )

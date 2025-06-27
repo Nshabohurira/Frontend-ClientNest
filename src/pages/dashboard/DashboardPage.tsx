@@ -10,6 +10,9 @@ import {
   TrendingUp,
   Users,
   Calendar,
+  Sparkles,
+  Zap,
+  Activity,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
@@ -53,63 +56,36 @@ const DashboardPage = () => {
       value: '2,847',
       change: '+12%',
       icon: PenTool,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100',
+      color: 'text-primary',
+      bgColor: 'bg-primary/10',
+      borderColor: 'border-primary/20',
     },
     {
       title: 'Comments',
       value: '8,251',
       change: '+8%',
       icon: MessageSquare,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
+      color: 'text-accent',
+      bgColor: 'bg-accent/10',
+      borderColor: 'border-accent/20',
     },
     {
       title: 'Engagement Rate',
       value: '4.2%',
       change: '+2.1%',
       icon: TrendingUp,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-200',
     },
     {
       title: 'Team Members',
       value: '12',
       change: '+1',
       icon: Users,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-    },
-  ];
-
-  const recentActivity = [
-    {
-      id: 1,
-      action: 'New post published',
-      user: 'Sarah Chen',
-      time: '2 minutes ago',
-      type: 'post',
-    },
-    {
-      id: 2,
-      action: 'Comment responded to',
-      user: 'Mike Johnson',
-      time: '15 minutes ago',
-      type: 'comment',
-    },
-    {
-      id: 3,
-      action: 'Post scheduled',
-      user: 'Lisa Wang',
-      time: '1 hour ago',
-      type: 'schedule',
-    },
-    {
-      id: 4,
-      action: 'Analytics report generated',
-      user: 'David Kim',
-      time: '2 hours ago',
-      type: 'analytics',
+      color: 'text-violet-600',
+      bgColor: 'bg-violet-50',
+      borderColor: 'border-violet-200',
     },
   ];
 
@@ -158,79 +134,93 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back! Here's what's happening with your social media
-          management.
-        </p>
+    <div className="space-y-8 animate-fade-in">
+      {/* Enhanced Header with gradient */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/10 p-8 border border-primary/10">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl -translate-y-32 translate-x-32"></div>
+        <div className="relative">
+          <div className="flex items-center gap-3 mb-2">
+            <Sparkles className="h-8 w-8 text-primary animate-pulse" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+          </div>
+          <p className="text-muted-foreground text-lg">
+            Welcome back! Here's what's happening with your social media management.
+          </p>
+        </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Enhanced Stats Grid with animations */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map(stat => (
+        {stats.map((stat, index) => (
           <div
             key={stat.title}
-            className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow"
+            className={`group bg-white p-6 rounded-xl border-2 ${stat.borderColor} shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 animate-fade-in`}
+            style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-medium text-muted-foreground mb-1">
                   {stat.title}
                 </p>
-                <p className="text-2xl font-bold">{stat.value}</p>
-                <p className="text-sm text-green-600 font-medium">
-                  {stat.change} from last month
-                </p>
+                <p className="text-3xl font-bold text-foreground mb-2">{stat.value}</p>
+                <div className="flex items-center gap-1">
+                  <TrendingUp className="h-4 w-4 text-green-600" />
+                  <p className="text-sm text-green-600 font-medium">
+                    {stat.change} from last month
+                  </p>
+                </div>
               </div>
-              <div className={`p-3 rounded-full ${stat.bgColor}`}>
-                <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              <div className={`p-4 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-200`}>
+                <stat.icon className={`h-7 w-7 ${stat.color}`} />
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activity -> Now Live Posts */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg border">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Live Posts</h2>
+      {/* Content Grid with enhanced styling */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Enhanced Live Posts Section */}
+        <div className="lg:col-span-2 bg-white p-8 rounded-xl border-2 border-primary/10 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Activity className="h-6 w-6 text-primary" />
+              <h2 className="text-2xl font-semibold">Live Posts</h2>
+              <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
+            </div>
             <Button
-              variant="ghost"
-              size="icon"
               onClick={() => setCreatePostModalOpen(true)}
-              className="h-8 w-8"
+              className="hover:scale-105 transition-transform duration-200 shadow-lg"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-5 w-5 mr-2" />
+              Create Post
             </Button>
           </div>
           <div className="space-y-4">
-            {posts.map(post => (
+            {posts.map((post, index) => (
               <div
                 key={post.id}
-                className="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                className="group flex items-start gap-4 p-4 hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5 rounded-xl transition-all duration-300 border border-transparent hover:border-primary/20 animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
               >
-                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-medium">
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-white text-sm font-bold">
                     {post.author.charAt(0)}
                   </span>
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="font-medium">{post.author}</p>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="font-semibold text-lg">{post.author}</p>
                     <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      className={`px-3 py-1 text-xs font-semibold rounded-full shadow-sm ${
                         post.status === 'published'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-blue-100 text-blue-800'
+                          ? 'bg-green-100 text-green-800 border border-green-200'
+                          : 'bg-blue-100 text-blue-800 border border-blue-200'
                       }`}
                     >
-                      {post.status.charAt(0).toUpperCase() +
-                        post.status.slice(1)}
+                      {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
                     </span>
                   </div>
 
@@ -288,18 +278,18 @@ const DashboardPage = () => {
                     </div>
                   ) : (
                     <>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap mt-1">
+                      <p className="text-muted-foreground whitespace-pre-wrap mb-3 leading-relaxed">
                         {post.content}
                       </p>
                       {post.image && (
                         <img
                           src={post.image}
                           alt="Post content"
-                          className="mt-2 rounded-lg object-cover w-full max-h-60"
+                          className="mt-3 rounded-xl object-cover w-full max-h-60 shadow-md hover:shadow-lg transition-shadow duration-200"
                         />
                       )}
-                      <div className="flex items-center justify-between mt-2">
-                        <p className="text-xs text-muted-foreground">
+                      <div className="flex items-center justify-between mt-4">
+                        <p className="text-xs text-muted-foreground bg-muted/50 px-3 py-1 rounded-full">
                           {post.status === 'scheduled' && post.scheduledAt
                             ? `Scheduled for: ${new Date(
                                 post.scheduledAt
@@ -308,11 +298,11 @@ const DashboardPage = () => {
                                 post.timestamp
                               ).toLocaleString()}`}
                         </p>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7"
+                            className="h-8 w-8 hover:bg-primary/10 hover:text-primary"
                             onClick={() => handleEdit(post)}
                           >
                             <Edit className="h-4 w-4" />
@@ -320,7 +310,7 @@ const DashboardPage = () => {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 hover:bg-red-100 hover:text-red-600"
+                            className="h-8 w-8 hover:bg-red-100 hover:text-red-600"
                             onClick={() => setPostToDelete(post.id)}
                           >
                             <Trash2 className="h-4 w-4" />
@@ -335,34 +325,54 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white p-6 rounded-lg border">
-          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-          <div className="space-y-3">
+        {/* Enhanced Quick Actions */}
+        <div className="bg-white p-8 rounded-xl border-2 border-accent/10 shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <Zap className="h-6 w-6 text-accent" />
+            <h2 className="text-2xl font-semibold">Quick Actions</h2>
+          </div>
+          <div className="space-y-4">
             <button
               onClick={() => navigate('/app/posts')}
-              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+              className="w-full p-4 text-left border-2 border-primary/20 rounded-xl hover:bg-gradient-to-r hover:from-primary/5 hover:to-primary/10 transition-all duration-300 flex items-center gap-4 group hover:scale-105 hover:shadow-lg"
             >
-              <PenTool className="h-5 w-5 text-primary" />
-              <span className="font-medium">Create New Post</span>
+              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                <PenTool className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <span className="font-semibold text-lg block">Create New Post</span>
+                <span className="text-sm text-muted-foreground">Share your thoughts</span>
+              </div>
             </button>
             <button
               onClick={() => navigate('/app/schedule')}
-              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+              className="w-full p-4 text-left border-2 border-accent/20 rounded-xl hover:bg-gradient-to-r hover:from-accent/5 hover:to-accent/10 transition-all duration-300 flex items-center gap-4 group hover:scale-105 hover:shadow-lg"
             >
-              <Calendar className="h-5 w-5 text-primary" />
-              <span className="font-medium">Schedule Post</span>
+              <div className="p-3 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors duration-200">
+                <Calendar className="h-6 w-6 text-accent" />
+              </div>
+              <div>
+                <span className="font-semibold text-lg block">Schedule Post</span>
+                <span className="text-sm text-muted-foreground">Plan ahead</span>
+              </div>
             </button>
             <button
               onClick={() => navigate('/app/analytics')}
-              className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+              className="w-full p-4 text-left border-2 border-emerald-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 transition-all duration-300 flex items-center gap-4 group hover:scale-105 hover:shadow-lg"
             >
-              <BarChart3 className="h-5 w-5 text-primary" />
-              <span className="font-medium">View Analytics</span>
+              <div className="p-3 rounded-lg bg-emerald-50 group-hover:bg-emerald-100 transition-colors duration-200">
+                <BarChart3 className="h-6 w-6 text-emerald-600" />
+              </div>
+              <div>
+                <span className="font-semibold text-lg block">View Analytics</span>
+                <span className="text-sm text-muted-foreground">Track performance</span>
+              </div>
             </button>
           </div>
         </div>
       </div>
+
+      {/* Modals and hidden inputs */}
       <CreatePostModal
         isOpen={isCreatePostModalOpen}
         onClose={() => setCreatePostModalOpen(false)}
