@@ -1,3 +1,4 @@
+
 import { Bell, Search, Settings, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,12 +40,12 @@ const Header = () => {
         </Button>
 
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center">
             <User className="h-4 w-4 text-white" />
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-medium">{user?.name}</p>
-            <p className="text-xs text-muted-foreground">{user?.role}</p>
+            <p className="text-sm font-medium">{user?.name || user?.username}</p>
+            <p className="text-xs text-muted-foreground">{user?.role || 'User'}</p>
           </div>
         </div>
       </div>
