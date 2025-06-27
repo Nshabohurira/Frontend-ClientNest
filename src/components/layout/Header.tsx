@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthStore } from '@/stores/authStore';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { user, logout } = useAuthStore();
@@ -21,6 +22,12 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-4">
+        <Link
+          to="/about"
+          className="text-sm font-medium px-3 py-2 rounded hover:bg-accent transition-colors"
+        >
+          About Us
+        </Link>
         <Button variant="ghost" size="icon">
           <Bell className="h-5 w-5" />
         </Button>

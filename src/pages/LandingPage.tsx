@@ -149,6 +149,12 @@ export default function LandingPage() {
           </a>
           <nav className="hidden md:flex gap-6">
             <a
+              href="/about"
+              className="text-muted-foreground hover:text-primary"
+            >
+              About Us
+            </a>
+            <a
               href="#features"
               className="text-muted-foreground hover:text-primary"
             >

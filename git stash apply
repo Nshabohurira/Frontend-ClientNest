@@ -1,0 +1,133 @@
+[1mdiff --git a/src/pages/LandingPage.tsx b/src/pages/LandingPage.tsx[m
+[1mindex 1a2c472..5255495 100644[m
+[1m--- a/src/pages/LandingPage.tsx[m
+[1m+++ b/src/pages/LandingPage.tsx[m
+[36m@@ -30,8 +30,8 @@[m [mconst testimonials = [[m
+ const footerLinks = {[m
+   company: [[m
+     { name: "About Us", href: "#" },[m
+[31m-    { name: "Features", href: "#" },[m
+[31m-    { name: "Pricing", href: "#" },[m
+[32m+[m[32m    { name: "Features", href: "#features" },[m
+[32m+[m[32m    { name: "Pricing", href: "#pricing" },[m
+     { name: "Contact", href: "#" },[m
+   ],[m
+   legal: [[m
+[36m@@ -82,7 +82,7 @@[m [mconst heroImages = [[m
+ export default function LandingPage() {[m
+   const navigate = useNavigate();[m
+   return ([m
+[31m-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">[m
+[32m+[m[32m    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col scroll-smooth">[m
+       {/* Header / Navbar */}[m
+       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-sm">[m
+         <div className="container mx-auto flex h-16 items-center justify-between px-4">[m
+[36m@@ -95,8 +95,8 @@[m [mexport default function LandingPage() {[m
+             <span className="text-xl font-bold">Client Nest</span>[m
+           </a>[m
+           <nav className="hidden md:flex gap-6">[m
+[31m-            <a href="#" className="text-muted-foreground hover:text-primary">Features</a>[m
+[31m-            <a href="#" className="text-muted-foreground hover:text-primary">Pricing</a>[m
+[32m+[m[32m            <a href="#features" className="text-muted-foreground hover:text-primary">Features</a>[m
+[32m+[m[32m            <a href="#pricing" className="text-muted-foreground hover:text-primary">Pricing</a>[m
+           </nav>[m
+           <div className="flex items-center gap-4">[m
+             <Button variant="ghost" onClick={() => navigate('/login')}>Login</Button>[m
+[36m@@ -135,7 +135,7 @@[m [mexport default function LandingPage() {[m
+       </section>[m
+ [m
+       {/* Features Section */}[m
+[31m-      <section className="py-16 px-4 bg-gradient-to-r from-white to-blue-50">[m
+[32m+[m[32m      <section id="features" className="py-16 px-4 bg-gradient-to-r from-white to-blue-50">[m
+         <h2 className="text-3xl font-bold text-center mb-10">Why Choose Client Nest?</h2>[m
+         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">[m
+           {features.map((feature) => ([m
+[36m@@ -165,6 +165,63 @@[m [mexport default function LandingPage() {[m
+         </div>[m
+       </section>[m
+ [m
+[32m+[m[32m      {/* Pricing Section */}[m
+[32m+[m[32m      <section id="pricing" className="py-16 px-4 bg-gradient-to-r from-white to-indigo-50">[m
+[32m+[m[32m        <h2 className="text-3xl font-bold text-center mb-10">Simple, Transparent Pricing</h2>[m
+[32m+[m[32m        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">[m
+[32m+[m[32m          {/* Free Plan */}[m
+[32m+[m[32m          <Card className="flex flex-col items-center p-8 border-2 border-gray-200">[m
+[32m+[m[32m            <CardHeader className="text-center">[m
+[32m+[m[32m              <CardTitle className="text-2xl mb-2">Free</CardTitle>[m
+[32m+[m[32m              <div className="text-4xl font-bold mb-2">$0</div>[m
+[32m+[m[32m              <div className="text-muted-foreground mb-4">Perfect for individuals just getting started.</div>[m
+[32m+[m[32m            </CardHeader>[m
+[32m+[m[32m            <CardContent className="flex-1 flex flex-col gap-2 text-center">[m
+[32m+[m[32m              <div>✔️ 1 Social Account</div>[m
+[32m+[m[32m              <div>✔️ Basic Analytics</div>[m
+[32m+[m[32m              <div>✔️ Limited Scheduling</div>[m
+[32m+[m[32m            </CardContent>[m
+[32m+[m[32m            <Button variant="outline" className="mt-6 w-full" onClick={() => navigate('/register')}>Get Started</Button>[m
+[32m+[m[32m          </Card>[m
+[32m+[m[32m          {/* Pro Plan */}[m
+[32m+[m[32m          <Card className="flex flex-col items-center p-8 border-2 border-primary shadow-lg scale-105">[m
+[32m+[m[32m            <CardHeader className="text-center">[m
+[32m+[m[32m              <Badge className="mb-2 bg-primary text-white">Most Popular</Badge>[m
+[32m+[m[32m              <CardTitle className="text-2xl mb-2">Pro</CardTitle>[m
+[32m+[m[32m              <div className="text-4xl font-bold mb-2">$19<span className="text-lg font-normal">/mo</span></div>[m
+[32m+[m[32m              <div className="text-muted-foreground mb-4">For growing teams and businesses.</div>[m
+[32m+[m[32m            </CardHeader>[m
+[32m+[m[32m            <CardContent className="flex-1 flex flex-col gap-2 text-center">[m
+[32m+[m[32m              <div>✔️ Up to 10 Social Accounts</div>[m
+[32m+[m[32m              <div>✔️ Advanced Analytics</div>[m
+[32m+[m[32m              <div>✔️ Unlimited Scheduling</div>[m
+[32m+[m[32m              <div>✔️ Priority Support</div>[m
+[32m+[m[32m            </CardContent>[m
+[32m+[m[32m            <Button className="mt-6 w-full" onClick={() => navigate('/register')}>Start Pro</Button>[m
+[32m+[m[32m          </Card>[m
+[32m+[m[32m          {/* Enterprise Plan */}[m
+[32m+[m[32m          <Card className="flex flex-col items-center p-8 border-2 border-gray-200">[m
+[32m+[m[32m            <CardHeader className="text-center">[m
+[32m+[m[32m              <CardTitle className="text-2xl mb-2">Enterprise</CardTitle>[m
+[32m+[m[32m              <div className="text-4xl font-bold mb-2">Custom</div>[m
+[32m+[m[32m              <div className="text-muted-foreground mb-4">For large organizations with advanced needs.</div>[m
+[32m+[m[32m            </CardHeader>[m
+[32m+[m[32m            <CardContent className="flex-1 flex flex-col gap-2 text-center">[m
+[32m+[m[32m              <div>✔️ Unlimited Social Accounts</div>[m
+[32m+[m[32m              <div>✔️ Custom Integrations</div>[m
+[32m+[m[32m              <div>✔️ Dedicated Account Manager</div>[m
+[32m+[m[32m              <div>✔️ SLA & Premium Support</div>[m
+[32m+[m[32m            </CardContent>[m
+[32m+[m[32m            <Button variant="outline" className="mt-6 w-full" onClick={() => navigate('/register')}>Contact Sales</Button>[m
+[32m+[m[32m          </Card>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div className="text-center mt-8">[m
+[32m+[m[32m          <a href="/pricing" className="inline-block text-primary font-semibold hover:underline hover:text-blue-600 transition-colors duration-200 text-lg">[m
+[32m+[m[32m            See detailed pricing &rarr;[m
+[32m+[m[32m          </a>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m      </section>[m
+[32m+[m
+       {/* Testimonials Section */}[m
+       <section className="py-16 px-4 bg-gradient-to-r from-blue-50 to-white">[m
+         <h2 className="text-3xl font-bold text-center mb-10">What Our Users Say</h2>[m
+[1mdiff --git a/src/pages/auth/LoginPage.tsx b/src/pages/auth/LoginPage.tsx[m
+[1mindex b7321b8..014b264 100644[m
+[1m--- a/src/pages/auth/LoginPage.tsx[m
+[1m+++ b/src/pages/auth/LoginPage.tsx[m
+[36m@@ -22,7 +22,7 @@[m [mconst LoginPage = () => {[m
+         title: "Welcome back!",[m
+         description: "You've successfully logged in to Client Nest.",[m
+       });[m
+[31m-      navigate("/");[m
+[32m+[m[32m      navigate("/dashboard");[m
+     } catch (error) {[m
+       toast({[m
+         title: "Login failed",[m
+[1mdiff --git a/src/router.tsx b/src/router.tsx[m
+[1mindex 8bbb88f..b31df3c 100644[m
+[1m--- a/src/router.tsx[m
+[1m+++ b/src/router.tsx[m
+[36m@@ -8,6 +8,9 @@[m [mimport ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";[m
+ // Landing Page[m
+ import LandingPage from "./pages/LandingPage";[m
+ [m
+[32m+[m[32m// Dashboard Page[m
+[32m+[m[32mimport DashboardPage from "./pages/dashboard/DashboardPage";[m
+[32m+[m
+ const AppRouter = () => 

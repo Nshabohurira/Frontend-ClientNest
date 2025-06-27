@@ -8,6 +8,7 @@ import {
 import { useAuthStore } from './stores/authStore';
 import Layout from './components/layout/Layout';
 import LandingPage from './pages/LandingPage';
+import AboutUsPage from './pages/AboutUsPage';
 
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
@@ -44,6 +45,7 @@ const AppRouterInternal = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/about" element={<AboutUsPage />} />
       {/* Protected Routes */}
       <Route
         path="/app"
