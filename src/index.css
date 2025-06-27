@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,99 +8,99 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%; /* Clean, crisp white with subtle blue undertone */
-    --foreground: 222 47% 11%; /* Rich, deep charcoal for excellent readability */
+    --background: 30 100% 98%; /* Warm, creamy white background */
+    --foreground: 20 25% 15%; /* Rich dark brown for excellent readability */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 20 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 20 25% 15%;
 
-    --primary: 262 83% 58%; /* Vibrant purple for primary actions */
+    --primary: 24 100% 50%; /* Vibrant orange for primary actions */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%; /* Light blue-gray for secondary elements */
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 30 40% 95%; /* Light warm gray for secondary elements */
+    --secondary-foreground: 20 25% 15%;
 
-    --muted: 210 30% 94%; /* Subtle background for muted elements */
-    --muted-foreground: 215 16% 47%; /* Sophisticated gray for muted text */
+    --muted: 30 30% 93%; /* Soft warm background for muted elements */
+    --muted-foreground: 25 15% 45%; /* Warm gray for muted text */
 
-    --accent: 142 76% 36%; /* Fresh green for success states and accents */
+    --accent: 142 71% 45%; /* Fresh emerald green for success states and accents */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%; /* Clear red for errors and warnings */
+    --destructive: 0 84% 60%; /* Bright coral red for errors and warnings */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%; /* Soft border color */
-    --input: 214 32% 91%;
-    --ring: 262 83% 58%; /* Purple focus rings */
+    --border: 30 25% 88%; /* Soft warm border color */
+    --input: 30 25% 88%;
+    --ring: 24 100% 50%; /* Orange focus rings */
 
     --radius: 0.5rem;
 
     /* Sidebar specific colors */
-    --sidebar-background: 222 47% 11%; /* Rich dark charcoal */
-    --sidebar-foreground: 210 40% 98%; /* Light text for contrast */
-    --sidebar-primary: 262 83% 58%; /* Purple for active items */
+    --sidebar-background: 20 25% 15%; /* Rich dark brown */
+    --sidebar-foreground: 30 100% 98%; /* Light text for contrast */
+    --sidebar-primary: 24 100% 50%; /* Orange for active items */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 28% 17%; /* Slightly lighter for hover states */
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 28% 17%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-accent: 20 20% 25%; /* Slightly lighter brown for hover states */
+    --sidebar-accent-foreground: 30 100% 98%;
+    --sidebar-border: 20 20% 25%;
+    --sidebar-ring: 24 100% 50%;
 
     /* Custom color variables for brand consistency */
-    --color-primary: #8B5CF6; /* Rich purple */
-    --color-secondary: #A78BFA; /* Light purple */
+    --color-primary: #FF6B00; /* Vibrant orange */
+    --color-secondary: #FFB366; /* Light orange */
     --color-accent: #10B981; /* Emerald green */
-    --color-background: #FAFAFF; /* Subtle purple-tinted white */
+    --color-background: #FFFBF7; /* Warm cream white */
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
   }
 
   .dark {
-    --background: 222 84% 5%; /* Deep, rich dark background */
-    --foreground: 210 40% 98%; /* Crisp white text */
+    --background: 20 30% 8%; /* Deep warm dark background */
+    --foreground: 30 100% 95%; /* Crisp warm white text */
 
-    --card: 222 84% 5%;
-    --card-foreground: 210 40% 98%;
+    --card: 20 30% 8%;
+    --card-foreground: 30 100% 95%;
 
-    --popover: 222 84% 5%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 20 30% 8%;
+    --popover-foreground: 30 100% 95%;
 
-    --primary: 262 83% 65%; /* Slightly brighter purple for dark mode */
-    --primary-foreground: 222 84% 5%;
+    --primary: 24 100% 55%; /* Slightly brighter orange for dark mode */
+    --primary-foreground: 20 30% 8%;
 
-    --secondary: 217 33% 17%; /* Dark blue-gray */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 20 25% 18%; /* Dark warm gray */
+    --secondary-foreground: 30 100% 95%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%; /* Softer muted text */
+    --muted: 20 25% 18%;
+    --muted-foreground: 25 20% 65%; /* Softer warm muted text */
 
-    --accent: 142 76% 36%; /* Consistent green accent */
-    --accent-foreground: 210 40% 98%;
+    --accent: 142 71% 45%; /* Consistent emerald green accent */
+    --accent-foreground: 30 100% 95%;
 
-    --destructive: 0 63% 31%; /* Darker red for dark mode */
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%; /* Coral red for dark mode */
+    --destructive-foreground: 30 100% 95%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 262 83% 65%;
+    --border: 20 25% 18%;
+    --input: 20 25% 18%;
+    --ring: 24 100% 55%;
 
     /* Dark mode sidebar */
-    --sidebar-background: 222 84% 3%; /* Even darker for depth */
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 262 83% 65%;
-    --sidebar-primary-foreground: 222 84% 3%;
-    --sidebar-accent: 217 33% 20%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 20%;
-    --sidebar-ring: 262 83% 65%;
+    --sidebar-background: 20 30% 6%; /* Even darker warm for depth */
+    --sidebar-foreground: 30 100% 95%;
+    --sidebar-primary: 24 100% 55%;
+    --sidebar-primary-foreground: 20 30% 6%;
+    --sidebar-accent: 20 25% 22%;
+    --sidebar-accent-foreground: 30 100% 95%;
+    --sidebar-border: 20 25% 22%;
+    --sidebar-ring: 24 100% 55%;
 
     /* Dark mode custom colors */
-    --color-primary: #A78BFA; /* Lighter purple for dark mode */
-    --color-secondary: #8B5CF6; /* Richer purple */
-    --color-accent: #10B981; /* Consistent green */
-    --color-background: #0F0F14; /* Deep purple-black */
+    --color-primary: #FF8533; /* Lighter orange for dark mode */
+    --color-secondary: #FF6B00; /* Rich orange */
+    --color-accent: #10B981; /* Consistent emerald green */
+    --color-background: #1A1611; /* Deep warm brown-black */
   }
 }
 
@@ -120,3 +121,4 @@
     @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
   }
 }
+
