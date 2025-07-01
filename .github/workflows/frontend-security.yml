@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # --- ESLint ---
+      # --- ESLint Setup ---
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,24 +25,30 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      - name: Run ESLint
+      # --- Run ESLint & Save HTML Report ---
+      - name: Run ESLint and Save HTML Report
         run: |
           npm install --save-dev eslint@8 eslint-plugin-security
-          npx eslint . --ext .js,.ts || true
+          npx eslint . --ext .js,.ts -f html -o eslint-report.html || true
 
-      # --- Semgrep ---
+      # --- Semgrep Scan & Report ---
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep
-        run: semgrep scan --config=auto . || true
-        
-      - name: Save ESLint Output
+      - name: Run Semgrep and Save Report
         run: |
-         npx eslint . --ext .js,.ts -f html -o eslint-report.html || true
+          semgrep scan --config=auto . --json > semgrep-report.json || true
 
-      - name: Upload ESLint Report
+      # --- Organize Reports into a Folder ---
+      - name: Organize Reports
+        run: |
+          mkdir -p security-reports
+          mv eslint-report.html security-reports/
+          mv semgrep-report.json security-reports/
+
+      # --- Upload All Reports as "frontend-report" ---
+      - name: Upload Frontend Security Report
         uses: actions/upload-artifact@v4
         with:
-         name: eslint-report
-         path: eslint-report.html
+          name: frontend-report
+          path: security-reports
