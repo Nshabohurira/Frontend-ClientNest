@@ -30,23 +30,25 @@ jobs:
         run: |
           npm install --save-dev eslint@8 eslint-plugin-security
           npx eslint . --ext .js,.ts -f html -o eslint-report.html || true
+          if [ -f eslint-report.html ]; then echo "ESLint report generated"; else echo "No ESLint report found"; fi
 
-      # --- Semgrep Scan & Report ---
+      # --- Semgrep Scan & Save Report ---
       - name: Install Semgrep
         run: pip install semgrep
 
       - name: Run Semgrep and Save Report
         run: |
           semgrep scan --config=auto . --json > semgrep-report.json || true
+          if [ -f semgrep-report.json ]; then echo "Semgrep report generated"; else echo "No Semgrep report found"; fi
 
-      # --- Organize Reports into a Folder ---
+      # --- Organize Reports Safely ---
       - name: Organize Reports
         run: |
           mkdir -p security-reports
-          mv eslint-report.html security-reports/
-          mv semgrep-report.json security-reports/
+          if [ -f eslint-report.html ]; then mv eslint-report.html security-reports/; fi
+          if [ -f semgrep-report.json ]; then mv semgrep-report.json security-reports/; fi
 
-      # --- Upload All Reports as "frontend-report" ---
+      # --- Upload All as "frontend-report" Artifact ---
       - name: Upload Frontend Security Report
         uses: actions/upload-artifact@v4
         with:
