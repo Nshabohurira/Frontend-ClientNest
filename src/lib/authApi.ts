@@ -17,14 +17,15 @@ export async function registerUser(data: {
   return res.json();
 }
 
+// ===================== TEMPORARY MOCKS FOR FRONTEND-ONLY LOGIN =====================
+// Remove these mocks and restore real API calls when backend is ready!
+
 export async function loginUser(data: { username: string; password: string }) {
-  const res = await fetch(`${API_BASE}/auth/token/`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw await res.json();
-  return res.json(); // { refresh, access }
+  // Simulate a successful login with any credentials
+  return {
+    access: 'fake-access-token',
+    refresh: 'fake-refresh-token',
+  };
 }
 
 export async function refreshToken(refresh: string) {
@@ -48,9 +49,13 @@ export async function requestPasswordReset(email: string) {
 }
 
 export async function getCurrentUser(token: string) {
-  const res = await fetch(`${API_BASE}/users/users/me/`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw await res.json();
-  return res.json();
+  // Return a fake user object
+  return {
+    id: 1,
+    username: 'testuser',
+    email: 'testuser@example.com',
+    first_name: 'Test',
+    last_name: 'User',
+  };
 }
+// ===================== END TEMPORARY MOCKS =====================

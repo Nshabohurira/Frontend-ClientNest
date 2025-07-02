@@ -1,5 +1,3 @@
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,99 +6,101 @@
 
 @layer base {
   :root {
-    --background: 30 100% 98%; /* Warm, creamy white background */
-    --foreground: 20 25% 15%; /* Rich dark brown for excellent readability */
+    --background: 45 100% 98%; /* Light gold-tinted background */
+    --foreground: 320 15% 15%; /* Deep burgundy for text */
 
     --card: 0 0% 100%;
-    --card-foreground: 20 25% 15%;
+    --card-foreground: 320 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 25% 15%;
+    --popover-foreground: 320 15% 15%;
 
-    --primary: 24 100% 50%; /* Vibrant orange for primary actions */
+    --primary: 22 89% 48%; /* #E85C0D - Bright Orange */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 40% 95%; /* Light warm gray for secondary elements */
-    --secondary-foreground: 20 25% 15%;
+    --secondary: 43 97% 61%; /* #FABC3F - Gold */
+    --secondary-foreground: 320 15% 15%;
 
-    --muted: 30 30% 93%; /* Soft warm background for muted elements */
-    --muted-foreground: 25 15% 45%; /* Warm gray for muted text */
+    --muted: 45 30% 93%;
+    --muted-foreground: 320 10% 45%;
 
-    --accent: 142 71% 45%; /* Fresh emerald green for success states and accents */
+    --accent: 350 68% 46%; /* #C7253E - Vivid Red */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%; /* Bright coral red for errors and warnings */
+    --destructive: 350 68% 46%; /* #C7253E - Vivid Red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 25% 88%; /* Soft warm border color */
-    --input: 30 25% 88%;
-    --ring: 24 100% 50%; /* Orange focus rings */
+    --border: 45 25% 88%;
+    --input: 45 25% 88%;
+    --ring: 22 89% 48%; /* Orange focus ring */
 
     --radius: 0.5rem;
 
     /* Sidebar specific colors */
-    --sidebar-background: 20 25% 15%; /* Rich dark brown */
-    --sidebar-foreground: 30 100% 98%; /* Light text for contrast */
-    --sidebar-primary: 24 100% 50%; /* Orange for active items */
+    --sidebar-background: 330 76% 23%; /* #821131 - Deep Burgundy */
+    --sidebar-foreground: 43 97% 96%; /* Light gold for contrast */
+    --sidebar-primary: 22 89% 48%; /* Orange for active items */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 20 20% 25%; /* Slightly lighter brown for hover states */
-    --sidebar-accent-foreground: 30 100% 98%;
-    --sidebar-border: 20 20% 25%;
-    --sidebar-ring: 24 100% 50%;
+    --sidebar-accent: 330 76% 23%; /* Deep Burgundy for hover */
+    --sidebar-accent-foreground: 43 97% 96%;
+    --sidebar-border: 330 76% 23%;
+    --sidebar-ring: 22 89% 48%;
 
     /* Custom color variables for brand consistency */
-    --color-primary: #FF6B00; /* Vibrant orange */
-    --color-secondary: #FFB366; /* Light orange */
-    --color-accent: #10B981; /* Emerald green */
-    --color-background: #FFFBF7; /* Warm cream white */
+    --color-primary: #E85C0D;
+    --color-secondary: #FABC3F;
+    --color-accent: #C7253E;
+    --color-background: #FFF9F2;
+    --color-sidebar: #821131;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
   }
 
   .dark {
-    --background: 20 30% 8%; /* Deep warm dark background */
-    --foreground: 30 100% 95%; /* Crisp warm white text */
+    --background: 330 76% 13%; /* Deep burgundy background */
+    --foreground: 43 97% 96%; /* Light gold text */
 
-    --card: 20 30% 8%;
-    --card-foreground: 30 100% 95%;
+    --card: 330 76% 13%;
+    --card-foreground: 43 97% 96%;
 
-    --popover: 20 30% 8%;
-    --popover-foreground: 30 100% 95%;
+    --popover: 330 76% 13%;
+    --popover-foreground: 43 97% 96%;
 
-    --primary: 24 100% 55%; /* Slightly brighter orange for dark mode */
-    --primary-foreground: 20 30% 8%;
+    --primary: 22 89% 58%; /* Slightly lighter orange for dark mode */
+    --primary-foreground: 330 76% 13%;
 
-    --secondary: 20 25% 18%; /* Dark warm gray */
-    --secondary-foreground: 30 100% 95%;
+    --secondary: 43 97% 61%; /* Gold */
+    --secondary-foreground: 330 76% 13%;
 
-    --muted: 20 25% 18%;
-    --muted-foreground: 25 20% 65%; /* Softer warm muted text */
+    --muted: 330 76% 18%;
+    --muted-foreground: 43 97% 76%;
 
-    --accent: 142 71% 45%; /* Consistent emerald green accent */
-    --accent-foreground: 30 100% 95%;
+    --accent: 350 68% 56%; /* Lighter vivid red for dark mode */
+    --accent-foreground: 43 97% 96%;
 
-    --destructive: 0 75% 55%; /* Coral red for dark mode */
-    --destructive-foreground: 30 100% 95%;
+    --destructive: 350 68% 56%;
+    --destructive-foreground: 43 97% 96%;
 
-    --border: 20 25% 18%;
-    --input: 20 25% 18%;
-    --ring: 24 100% 55%;
+    --border: 330 76% 18%;
+    --input: 330 76% 18%;
+    --ring: 22 89% 58%;
 
     /* Dark mode sidebar */
-    --sidebar-background: 20 30% 6%; /* Even darker warm for depth */
-    --sidebar-foreground: 30 100% 95%;
-    --sidebar-primary: 24 100% 55%;
-    --sidebar-primary-foreground: 20 30% 6%;
-    --sidebar-accent: 20 25% 22%;
-    --sidebar-accent-foreground: 30 100% 95%;
-    --sidebar-border: 20 25% 22%;
-    --sidebar-ring: 24 100% 55%;
+    --sidebar-background: 330 76% 18%; /* Slightly lighter burgundy */
+    --sidebar-foreground: 43 97% 96%;
+    --sidebar-primary: 22 89% 58%; /* Orange for active items */
+    --sidebar-primary-foreground: 330 76% 18%;
+    --sidebar-accent: 330 76% 23%;
+    --sidebar-accent-foreground: 43 97% 96%;
+    --sidebar-border: 330 76% 23%;
+    --sidebar-ring: 22 89% 58%;
 
     /* Dark mode custom colors */
-    --color-primary: #FF8533; /* Lighter orange for dark mode */
-    --color-secondary: #FF6B00; /* Rich orange */
-    --color-accent: #10B981; /* Consistent emerald green */
-    --color-background: #1A1611; /* Deep warm brown-black */
+    --color-primary: #E85C0D;
+    --color-secondary: #FABC3F;
+    --color-accent: #C7253E;
+    --color-background: #1A0A13;
+    --color-sidebar: #821131;
   }
 }
 
