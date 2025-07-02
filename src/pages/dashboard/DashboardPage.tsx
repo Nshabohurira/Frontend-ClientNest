@@ -34,12 +34,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { useAuthStore } from '../../stores/authStore';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
   const [isCreatePostModalOpen, setCreatePostModalOpen] = useState(false);
   const [isSchedulePostModalOpen, setSchedulePostModalOpen] = useState(false);
   const { posts, updatePost, deletePost } = usePostStore();
+  const { user } = useAuthStore();
 
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
   const [editingContent, setEditingContent] = useState('');
@@ -145,6 +147,12 @@ const DashboardPage = () => {
               Dashboard
             </h1>
           </div>
+          {/* Personalized welcome message */}
+          {user && (
+            <p className="text-lg font-semibold text-primary mb-1">
+              Welcome, {user.username}!
+            </p>
+          )}
           <p className="text-muted-foreground text-lg">
             Welcome back! Here's what's happening with your social media management.
           </p>
